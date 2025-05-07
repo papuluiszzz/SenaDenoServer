@@ -7,4 +7,3 @@ export const conexion = await new Client().connect({
     db: "sena_mvc",
     password: "root"
 });
-
