@@ -1,0 +1,11 @@
+{
+  "version": "4",
+  "redirects": {
+    "https://deno.land/x/oak": "https://deno.land/x/oak@v17.1.4"
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@std/assert@1"
+    ]
+  }
+}
