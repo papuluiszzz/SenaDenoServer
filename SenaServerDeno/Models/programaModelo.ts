@@ -26,7 +26,7 @@ export class Programa{
                 throw new Error("No se ha proporcionado un objeto de Programa valido.");
             }
 
-            const nombre_programa = this._objPrograma;
+            const { nombre_programa } = this._objPrograma;
             if (!nombre_programa) {
                 throw new Error("Faltan campos requeridos");
             }
@@ -90,7 +90,7 @@ export class Programa{
                 throw new Error("No se ha proporcionado un objeto de Programa valido.");
             }
 
-            const idPrograma = this._objPrograma;
+            const { idPrograma } = this._objPrograma;
 
             if (!idPrograma) {
                 throw new Error("Faltan campos requeridos");
