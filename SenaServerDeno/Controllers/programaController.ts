@@ -36,7 +36,7 @@ export const postPrograma = async(ctx:any)=>{
 
         const body = await request.body.json();
         const ProgramaData = {
-            idPrograma: null,
+            idprograma: null,
             nombre_programa: body.nombre_programa
         }
 
@@ -68,8 +68,8 @@ export const putPrograma = async(ctx:any)=>{
             return;
         }
 
-        const idPrograma = ctx.params.id;
-        if (!idPrograma) {
+        const idprograma = ctx.params.id;
+        if (!idprograma) {
             response.status = 400;
             response.body = { success:false, msg:"Id no proporcionado"};
             return;
@@ -77,7 +77,7 @@ export const putPrograma = async(ctx:any)=>{
 
         const body = await request.body.json();
         const ProgramaData = {
-            idPrograma:idPrograma,
+            idprograma:idprograma,
             nombre_programa:body.nombre_programa
         }
 
@@ -113,7 +113,7 @@ export const deletePrograma = async(ctx:any)=>{
 
         const body = await request.body.json();
 
-        if (!body.idPrograma) {
+        if (!body.idprograma) {
             response.status = 400;
             response.body = {
                 success:false,
@@ -123,7 +123,7 @@ export const deletePrograma = async(ctx:any)=>{
         }
 
         const ProgramaData = {
-            idPrograma: body.idPrograma,
+            idprograma: body.idprograma,
             nombre_programa:""
         }
 

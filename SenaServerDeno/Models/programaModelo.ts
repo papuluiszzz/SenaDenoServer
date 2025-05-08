@@ -2,17 +2,17 @@ import { conexion } from "./conexion.ts";
 import { z } from "../Dependencies/dependencias.ts";
 
 interface ProgramaData {
-    idPrograma: number | null;
+    idprograma: number | null;
     nombre_programa: string;
 }
 
 export class Programa{
     public _objPrograma: ProgramaData | null;
-    public _idPrograma: number | null;
+    public _idprograma: number | null;
 
-    constructor(objPrograma: ProgramaData | null = null, idPrograma: number | null = null){
+    constructor(objPrograma: ProgramaData | null = null, idprograma: number | null = null){
         this._objPrograma = objPrograma;
-        this._idPrograma = idPrograma;
+        this._idprograma = idprograma;
     }
 
     public async SeleccionarPrograma(): Promise<ProgramaData[]>{
@@ -32,10 +32,10 @@ export class Programa{
             }
 
             await conexion.execute("START TRANSACTION")
-            const result = await conexion.execute('insert into programa (nombre_programa) values (?)', [nombre_programa]);
+            const result = await conexion.execute('insert into programa (nombre_programa) values (?)', [nombre_programa,]);
             
             if (result && typeof result.affectedRows === "number" && result.affectedRows > 0) {
-                const [programa] = await conexion.query('select * from programa idPrograma = LAST_INSERT_ID()',);
+                const [programa] = await conexion.query('SELECT * FROM programa WHERE idprograma = LAST_INSERT_ID()',);
                 await conexion.execute("COMMIT");
                 return { success:true, message:"Programa registrado exitosamente", programa:programa };
             } else {
@@ -56,17 +56,17 @@ export class Programa{
                 throw new Error("No se ha proporcionado un objeto de Programa valido.");
             }
 
-            const { idPrograma, nombre_programa } = this._objPrograma;
+            const { idprograma, nombre_programa } = this._objPrograma;
 
-            if (!idPrograma || nombre_programa) {
+            if (!idprograma || nombre_programa) {
                 throw new Error("Faltan campos requeridos");
             }
 
             await conexion.execute("START TRANSACTION")
-            const result = await conexion.execute('update programa set nombre_programa = ? where idPrograma = ?', [idPrograma, nombre_programa]);
+            const result = await conexion.execute('update programa set nombre_programa = ? where idprograma = ?', [idprograma, nombre_programa]);
             
             if (result && typeof result.affectedRows === "number" && result.affectedRows > 0) {
-                const [programa] = await conexion.query('select * from programa where idPrograma = ?', [idPrograma]);
+                const [programa] = await conexion.query('select * from programa where idprograma = ?', [idprograma]);
                 await conexion.execute("COMMIT");
                 return { success:true, message:"Programa actualizado exitosamente", programa:programa };
             } else {
@@ -90,15 +90,15 @@ export class Programa{
                 throw new Error("No se ha proporcionado un objeto de Programa valido.");
             }
 
-            const { idPrograma } = this._objPrograma;
+            const { idprograma } = this._objPrograma;
 
-            if (!idPrograma) {
+            if (!idprograma) {
                 throw new Error("Faltan campos requeridos");
             }
 
             await conexion.execute("START TRANSACTION")
 
-            const [existingProgram] = await conexion.query('select * from programa where idPrograma = ?', [idPrograma]);
+            const [existingProgram] = await conexion.query('select * from programa where idprograma = ?', [idprograma]);
 
             if (!existingProgram || existingProgram.length === 0) {
                 await conexion.execute("ROLLBACK");
@@ -108,7 +108,7 @@ export class Programa{
                 };
             }
 
-            const result = await conexion.execute('delete from programa where idPrograma = ?', [idPrograma]);
+            const result = await conexion.execute('delete from programa where idprograma = ?', [idprograma]);
             
             if (result && typeof result.affectedRows === "number" && result.affectedRows > 0) {
                 await conexion.execute("COMMIT");
