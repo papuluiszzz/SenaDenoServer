@@ -1,5 +1,5 @@
 import { Router } from "../Dependencies/dependencias.ts";
-import { getPrograma,postPrograma,putPrograma,deletePrograma} from "../Controllers/aprendizController.ts";
+import { getPrograma,postPrograma,putPrograma,deletePrograma} from "../Controllers/programaController.ts";
 
 const routerPrograma = new Router();
 
