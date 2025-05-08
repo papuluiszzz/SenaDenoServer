@@ -83,7 +83,7 @@ export class Programa{
                 return{ success: true, message:"Programa Actualizado correctamente",programa:programa};
             }else{
 
-                throw new Error("No fue posible actualizar el aprendiz")
+                throw new Error("No fue posible actualizar el programa")
             }
         } catch (error) {
             if (error instanceof z.ZodError) {
