@@ -26,20 +26,20 @@ POST http://localhost:8000/profesion
 Content-Type: application/json
 
 {
-    "nombre_profesion":"HSQ"
+    "nombre_profesion":"Maquinaria Pesada"
 }
 ###
 PUT http://localhost:8000/profesion
 Content-Type: application/json
 
 {
-    "idprofesion":"5",
-    "nombre_profesion":"Desarrollador"
+    "idprofesion":"7",
+    "nombre_profesion":"Desarrollador y analisis"
 }
 ###
 DELETE http://localhost:8000/profesion
 Content-Type: application/json
 
 {
-    "idprofesion":"5"
+    "idprofesion":"8"
 }
