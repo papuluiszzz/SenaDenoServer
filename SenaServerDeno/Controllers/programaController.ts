@@ -75,7 +75,7 @@ export const putPrograma = async(ctx: any)=>{
         const ProgramaData = {
 
             idprograma: body.idprograma,
-            nombre_programa:"",
+            nombre_programa: body.nombre_programa,
         }
 
         const objAprendiz = new Programa(ProgramaData);

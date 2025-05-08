@@ -62,14 +62,14 @@ export class Programa{
                 throw new Error("Se requiere el ID del programa para actualizarlo");
             }
 
-            if (!idprograma || !nombre_programa) {
+            if (!nombre_programa) {
                 throw new Error("Faltan campos requeridos para actualizar el programa");
             } 
 
             await conexion.execute("START TRANSACTION");
 
             const result = await conexion.execute(
-            `UPDATE programa SET nombre_programa = ? WHERE idprograma = ?`,[
+            `UPDATE programa SET nombre_programa = ? `,[
                 nombre_programa, idprograma
             ]);
 
@@ -83,7 +83,7 @@ export class Programa{
                 return{ success: true, message:"Programa Actualizado correctamente",programa:programa};
             }else{
 
-                throw new Error("No fue posible actualizar el aprendiz")
+                throw new Error("No fue posible actualizar el programa")
             }
         } catch (error) {
             if (error instanceof z.ZodError) {

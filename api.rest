@@ -2,6 +2,10 @@ GET http://localhost:8000/programa
 
 ###
 
+GET https://localhost:8000/instructor
+
+###
+
 POST  http://localhost:8000/programa
 Content-Type: application/json
 
@@ -52,21 +56,27 @@ Content-Type: application/json
     "email":"luis@gmail.com",
     "telefonos":"3112824319"
 }
-
 ###
-DELETE http://localhost:8000/aprendiz
+GET http://localhost:8000/profesion
+###
+POST http://localhost:8000/profesion
 Content-Type: application/json
 
 {
-    "idaprendiz":"1"
+    "nombre_profesion":"Maquinaria Pesada"
 }
-
 ###
-POST http://localhost:8000/ficha
+PUT http://localhost:8000/profesion
 Content-Type: application/json
 
 {
-
+    "idprofesion":"7",
+    "nombre_profesion":"Desarrollador y analisis"
+}
+###
+DELETE http://localhost:8000/profesion
+Content-Type: application/json
+{
   "codigo": "1234567",
   "fecha_inicio_lectiva": "2025-01-15",
   "fecha_fin_lectiva": "2025-06-30",
@@ -74,3 +84,9 @@ Content-Type: application/json
   "programa_idprograma": 1
 
 }
+
+###
+
+GET  https://localhost:8000/instructor
+
+###
