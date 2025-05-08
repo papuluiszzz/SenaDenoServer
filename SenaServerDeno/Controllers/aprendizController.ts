@@ -1,6 +1,8 @@
 // deno-lint-ignore-file
 import { Aprendiz } from "../Models/aprendizModelo.ts";
 
+
+
 export const getAprendiz = async (ctx: any)=>{
     
     const {response} = ctx;
