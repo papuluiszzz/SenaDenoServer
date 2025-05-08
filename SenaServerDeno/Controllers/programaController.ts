@@ -58,45 +58,40 @@ export const postPrograma = async(ctx:any)=>{
     }
 };
 
-export const putPrograma = async(ctx:any)=>{
-    const { response, request } = ctx;
-    try {
-        const contentLength = request.headers.get("Content-Length");
-        if (contentLength === 0) {
-            response.status = 400;
-            response.body = {success:false, msg:"El cuerpo pde la solicitud esta vacio"};
-            return;
-        }
+export const putPrograma = async(ctx: any)=>{
+    const {response,request} = ctx;
 
-        const idprograma = ctx.params.id;
-        if (!idprograma) {
+    try{
+        const contentLength = request.headers.get("Content-length");
+
+        if (contentLength === "0") {
+
             response.status = 400;
-            response.body = { success:false, msg:"Id no proporcionado"};
+            response.body = {success: false, msg: "Cuerpo de la solicitud esta vacio"};
             return;
         }
 
         const body = await request.body.json();
         const ProgramaData = {
-            idprograma:idprograma,
-            nombre_programa:body.nombre_programa
+
+            idprograma: body.idprograma,
+            nombre_programa:"",
         }
 
-        const objPrograma = new Programa(ProgramaData)
-        const result = await objPrograma.ActualizarPrograma();
+        const objAprendiz = new Programa(ProgramaData);
+        const result = await objAprendiz.ActualizarPrograma();
         response.status = 200;
         response.body = {
             success:true,
             body:result,
-            msg:"Programa no encontrado",
         };
 
-    } catch (error) {
+    }catch(error){
         response.status = 400;
         response.body = {
             success:false,
-            msg:"Error al actualizar el programa",
-            errors:error
-        }        
+            msg:"Error al procesar la solicitud"
+        }
     }
 };
 
