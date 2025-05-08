@@ -3,8 +3,8 @@ import { getInstructor, postInstructor } from '../Controllers/instructorControll
 
 const routerInstructor = new Router();
 
-routerInstructor.get("/aprendiz",getInstructor);
-routerInstructor.post("/aprendiz",postInstructor);
+routerInstructor.get("/instructor",getInstructor);
+routerInstructor.post("/instructor",postInstructor);
 //routerInstructor.put("/aprendiz",putAprendiz);
 //routerInstructor.delete("/aprendiz",deleteAprendiz);
 
