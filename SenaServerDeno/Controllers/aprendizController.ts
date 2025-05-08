@@ -2,6 +2,7 @@
 import { Aprendiz } from "../Models/aprendizModelo.ts";
 
 
+
 export const getAprendiz = async (ctx: any)=>{
     
     const {response} = ctx;
@@ -111,4 +112,61 @@ export const putAprendiz = async(ctx: any)=>{
             msg:"Error al procesar la solicitud"
         }
     }
+
+
+    
 }
+
+    export const deleteAprendiz  = async (ctx: any)=>{
+
+        const {response,request} = ctx;
+
+        try {
+
+            const contentLength = request.headers.get("Content-Length");
+
+            if (contentLength === "0") {
+                response.status = 400;
+                response.body = {success:false, msg:"El ID del usuario es requerido para eliminarlo"};
+                return;
+                
+            }
+
+            const body = await request.body.json();
+
+            if (!body.idaprendiz) {
+
+                response.status = 400;
+                response.body = {success:false, msg:"El ID del aprendiz es requerido para eliminarlo"};
+                return;
+                
+            }
+
+            const objAprendiz = new Aprendiz();
+            objAprendiz._objAprendiz = {
+                idaprendiz: body.idaprendiz,
+                nombre:"",
+                apellido:"",
+                email:"",
+                telefono:""
+
+            };
+
+            const result = await objAprendiz.EliminarAprendiz();
+
+            response.status = 200;
+            response.body = {
+                success:true,
+                body:result,
+            };
+            
+        } catch (error) {
+            response.status = 400;
+            response.body = {
+                success:false,
+                msg:"Error al procesar la solicitud"
+            }
+
+        }
+    }
+

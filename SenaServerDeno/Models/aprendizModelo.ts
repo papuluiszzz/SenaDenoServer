@@ -127,4 +127,51 @@ export class Aprendiz{
             }
         }
     }
+
+    public async EliminarAprendiz(): Promise<{success: boolean; message:string}>{
+
+        try {
+            
+            if (!this._objAprendiz) {
+                throw new Error("No se a proporcionado un objeto de aprendiz valido")
+                
+            }
+
+            const {idaprendiz} = this._objAprendiz;
+
+            if (!idaprendiz) {
+
+                throw new Error("Se requiere el ID del aprendiz para eliminarlo")
+                
+            }
+
+            await conexion.execute("START TRANSACTION");
+
+            const result = await conexion.execute(
+                `DELETE FROM aprendiz WHERE idaprendiz = ?`,[idaprendiz]
+            );
+
+            if(result && typeof result.affectedRows === "number" && result.affectedRows > 0){
+                await conexion.execute("COMMIT");
+
+                return {
+                    success:true,
+                    message:"Aprendiz eliminado correctamente"
+                };
+            }else{
+                throw new Error("No fue posible eliminar el usuario o el usuario no existe");
+            }
+
+        } catch (error) {
+            
+            if (error instanceof z.ZodError) {
+
+                return {success:false, message: error.message}
+                
+            }else{
+                return {success:false, message:"Error interno del servidor"}
+            }
+
+        }
+    }
 }

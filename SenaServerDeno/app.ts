@@ -1,16 +1,29 @@
 import { Application, oakCors } from "./Dependencies/dependencias.ts";
-import { routerAprendiz } from "./Routes/aprendizRouters.ts";
-import { routerprofesion } from "./Routes/profesionRouters.ts";
+
+
+
+import { routerAprendiz } from "./Routes/aprendizRoutes.ts";
+import { routerPrograma } from "./Routes/programaRouter.ts";
+import { routerFicha } from "./Routes/fichaRouter.ts";
+import { routerInstructor } from "./Routes/instructorRouter.ts";
+
+
+
 const app = new Application();
 
 app.use(oakCors());
 
-const routers = [routerAprendiz,routerprofesion]
+
+
+const routers = [routerAprendiz,routerPrograma,routerFicha, routerInstructor]
+
+
 
 routers.forEach((router)=>{
 
     app.use(router.routes());
-    app.use(routerAprendiz.allowedMethods());
+    app.use(router.allowedMethods());
+
 });
 
 console.log("Servidor corriendo por el puerto 8000")

@@ -2,17 +2,17 @@ import { conexion } from "./conexion.ts";
 import { z } from "../Dependencies/dependencias.ts";
 
 interface ProgramaData {
-    idPrograma: number | null;
+    idprograma: number | null;
     nombre_programa: string;
 }
 
 export class Programa{
     public _objPrograma: ProgramaData | null;
-    public _idPrograma: number | null;
+    public _idprograma: number | null;
 
-    constructor(objPrograma: ProgramaData | null = null, idPrograma: number | null = null){
+    constructor(objPrograma: ProgramaData | null = null, idprograma: number | null = null){
         this._objPrograma = objPrograma;
-        this._idPrograma = idPrograma;
+        this._idprograma = idprograma;
     }
 
     public async SeleccionarPrograma(): Promise<ProgramaData[]>{
@@ -26,16 +26,16 @@ export class Programa{
                 throw new Error("No se ha proporcionado un objeto de Programa valido.");
             }
 
-            const nombre_programa = this._objPrograma;
+            const { nombre_programa } = this._objPrograma;
             if (!nombre_programa) {
                 throw new Error("Faltan campos requeridos");
             }
 
             await conexion.execute("START TRANSACTION")
-            const result = await conexion.execute('insert into programa (nombre_programa) values (?)', [nombre_programa]);
+            const result = await conexion.execute('insert into programa (nombre_programa) values (?)', [nombre_programa,]);
             
             if (result && typeof result.affectedRows === "number" && result.affectedRows > 0) {
-                const [programa] = await conexion.query('select * from programa idPrograma = LAST_INSERT_ID()',);
+                const [programa] = await conexion.query('SELECT * FROM programa WHERE idprograma = LAST_INSERT_ID()',);
                 await conexion.execute("COMMIT");
                 return { success:true, message:"Programa registrado exitosamente", programa:programa };
             } else {
@@ -50,36 +50,46 @@ export class Programa{
         }
     }
 
-    public async ActualizarPrograma(): Promise<{ success: boolean; message: string; programa?: Record<string, unknown> }> {
-        try{
+    public async ActualizarPrograma(): Promise<{success: boolean; message:string; programa?: Record<string, unknown>}>{
+        try {
             if (!this._objPrograma) {
-                throw new Error("No se ha proporcionado un objeto de Programa valido.");
+                throw new Error("No se ha proporcionado un objeto de programa valido")
             }
 
-            const { idPrograma, nombre_programa } = this._objPrograma;
+            const { idprograma,nombre_programa } = this._objPrograma;
 
-            if (!idPrograma || nombre_programa) {
-                throw new Error("Faltan campos requeridos");
+            if (!idprograma) {
+                throw new Error("Se requiere el ID del programa para actualizarlo");
             }
 
-            await conexion.execute("START TRANSACTION")
-            const result = await conexion.execute('update programa set nombre_programa = ? where idPrograma = ?', [idPrograma, nombre_programa]);
-            
+            if (!nombre_programa) {
+                throw new Error("Faltan campos requeridos para actualizar el programa");
+            } 
+
+            await conexion.execute("START TRANSACTION");
+
+            const result = await conexion.execute(
+            `UPDATE programa SET nombre_programa = ? `,[
+                nombre_programa, idprograma
+            ]);
+
             if (result && typeof result.affectedRows === "number" && result.affectedRows > 0) {
-                const [programa] = await conexion.query('select * from programa where idPrograma = ?', [idPrograma]);
+                
+                const [programa] = await conexion.query(
+                    `SELECT * FROM programa WHERE idprograma = ?`,[idprograma]
+                );
+
                 await conexion.execute("COMMIT");
-                return { success:true, message:"Programa actualizado exitosamente", programa:programa };
-            } else {
-                await conexion.execute("ROLLBACK");
-                return {success:false, message:"No fué posible actualizar el programa"};
+                return{ success: true, message:"Programa Actualizado correctamente",programa:programa};
+            }else{
+
+                throw new Error("No fue posible actualizar el programa")
             }
         } catch (error) {
-            await conexion.execute("ROLLBACK");
-
             if (error instanceof z.ZodError) {
-                return { success:false, message: error.message };
-            } else {
-                return { success:false, message: "Error interno del servidor" };
+                return {success:false,message: error.message}
+            }else{
+                return {success: false, message:"Error interno del servidor"}
             }
         }
     }
@@ -90,15 +100,15 @@ export class Programa{
                 throw new Error("No se ha proporcionado un objeto de Programa valido.");
             }
 
-            const idPrograma = this._objPrograma;
+            const { idprograma } = this._objPrograma;
 
-            if (!idPrograma) {
+            if (!idprograma) {
                 throw new Error("Faltan campos requeridos");
             }
 
             await conexion.execute("START TRANSACTION")
 
-            const [existingProgram] = await conexion.query('select * from programa where idPrograma = ?', [idPrograma]);
+            const [existingProgram] = await conexion.query('select * from programa where idprograma = ?', [idprograma]);
 
             if (!existingProgram || existingProgram.length === 0) {
                 await conexion.execute("ROLLBACK");
@@ -108,7 +118,7 @@ export class Programa{
                 };
             }
 
-            const result = await conexion.execute('delete from programa where idPrograma = ?', [idPrograma]);
+            const result = await conexion.execute('delete from programa where idprograma = ?', [idprograma]);
             
             if (result && typeof result.affectedRows === "number" && result.affectedRows > 0) {
                 await conexion.execute("COMMIT");
