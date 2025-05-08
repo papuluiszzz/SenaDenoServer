@@ -112,5 +112,5 @@ export const putAprendiz = async(ctx: any)=>{
         }
     }
 
-    export const 
+    
 }
