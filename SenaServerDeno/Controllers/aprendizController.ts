@@ -1,7 +1,5 @@
 // deno-lint-ignore-file
-import { Body } from "https://deno.land/x/oak@v17.1.3/body.ts";
 import { Aprendiz } from "../Models/aprendizModelo.ts";
-import { Status } from 'https://deno.land/x/oak@v17.1.3/deps.ts';
 
 
 export const getAprendiz = async (ctx: any)=>{
