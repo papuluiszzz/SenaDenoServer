@@ -19,3 +19,11 @@ Content-Type: application/json
     "email":"luis@gmail.com",
     "telefonos":"3112824319"
 }
+
+###
+DELETE http://localhost:8000/aprendiz
+Content-Type: : application/json
+
+{
+    "idaprendiz":"1"
+}
