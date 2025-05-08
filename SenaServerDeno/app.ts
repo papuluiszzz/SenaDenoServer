@@ -6,7 +6,11 @@ const app = new Application();
 
 app.use(oakCors());
 
+<<<<<<< HEAD
 const routers = [routerAprendiz, routerPrograma]
+=======
+const routers = [routerAprendiz,routerPrograma]
+>>>>>>> 705097c8c825437417bbe3db969df20c83dffe37
 
 routers.forEach((router)=>{
 
