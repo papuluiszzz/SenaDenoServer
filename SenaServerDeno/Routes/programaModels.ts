@@ -3,9 +3,9 @@ import { getPrograma,postPrograma,putPrograma,deletePrograma} from "../Controlle
 
 const routerPrograma = new Router();
 
-routerAprendiz.get("/aprendiz",getPrograma);
-routerAprendiz.post("/aprendiz",postPrograma);
-routerAprendiz.put("/aprendiz:id",putPrograma);
-routerAprendiz.put("/aprendiz",deletePrograma);
+routerPrograma.get("/programa",getPrograma);
+routerPrograma.post("/programa",postPrograma);
+routerPrograma.put("/programa:id",putPrograma);
+routerPrograma.put("/programa",deletePrograma);
 
 export {routerPrograma};

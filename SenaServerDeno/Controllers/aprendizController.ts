@@ -111,4 +111,6 @@ export const putAprendiz = async(ctx: any)=>{
             msg:"Error al procesar la solicitud"
         }
     }
+
+    
 }
