@@ -71,10 +71,60 @@ export class Aprendiz{
 
                 return {success:false,message:"Error interno del servidor"}
             }
-
         }
     }
 
-    
+    public async ActualizarAprendiz(): Promise<{success: boolean; message:string; aprendiz?: Record<string, unknown>}>{
 
+        try {
+            
+            if (!this._objAprendiz) {
+                throw new Error("No se ha proporcionado un objeto de aprendiz valido")
+            }
+
+            const {idaprendiz,nombre,apellido,email,telefono} = this._objAprendiz;
+
+            if (!idaprendiz) {
+                throw new Error("Se requiere el ID del aprendiz para actualizarlo");
+            }
+
+            if (!nombre || !apellido || !email || !telefono) {
+                
+                throw new Error("Faltan campos requeridos para actualizar el aprendiz");
+            } 
+
+            await conexion.execute("START TRANSACTION");
+
+            const result = await conexion.execute(
+            `UPDATE aprendiz SET nombre = ?, apellido = ?, email = ?, telefono = ? WHERE idaprendiz = ?`,[
+                nombre,apellido,email,telefono,idaprendiz
+            
+            ]);
+
+            if (result && typeof result.affectedRows === "number" && result.affectedRows > 0) {
+                
+                const [aprendiz] = await conexion.query(
+                    `SELECT * FROM aprendiz WHERE idaprendiz = ?`,[idaprendiz]
+                );
+
+                await conexion.execute("COMMIT");
+
+                return{ success: true, message:"Aprendiz Actualizado correctamente",aprendiz:aprendiz};
+            }else{
+
+                throw new Error("No fue posible actualizar el aprendiz")
+
+            }
+
+
+        } catch (error) {
+            
+
+            if (error instanceof z.ZodError) {
+                return {success:false,message: error.message}
+            }else{
+                return {success: false, message:"Error interno del servidor"}
+            }
+        }
+    }
 }
