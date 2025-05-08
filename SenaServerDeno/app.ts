@@ -1,7 +1,7 @@
 import { Application, oakCors } from "./Dependencies/dependencias.ts";
 
 
-import { routerAprendiz } from "./Routes/aprendizModels.ts";
+import { routerAprendiz } from "./Routes/aprendizRoutes.ts";
 import { routerPrograma } from "./Routes/programaModels.ts";
 import { routerFicha } from "./Routes/fichaRouter.ts";
 
@@ -18,8 +18,7 @@ const routers = [routerAprendiz,routerPrograma,routerFicha]
 routers.forEach((router)=>{
 
     app.use(router.routes());
-    app.use(routerAprendiz.allowedMethods());
-    app.use(routerPrograma.allowedMethods());
+    app.use(router.allowedMethods());
 
 });
 

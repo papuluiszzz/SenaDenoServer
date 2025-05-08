@@ -28,7 +28,7 @@ export const postPrograma = async(ctx:any)=>{
     try {
         const contentLength = request.headers.get("Content-Length");
 
-        if (contentLength === 0) {
+        if (contentLength === "0") {
             response.status = 400;
             response.body = {success:false, msg:"El cuerpo de la solicitud se encuentra vacío."};
             return;

@@ -8,6 +8,6 @@ routerFicha.post("/ficha",postFicha);
 routerFicha.put("/ficha",putFicha);
 routerFicha.delete("/ficha",deleteFicha);
 routerFicha.get("/ficha/programa/:idprograma", getFichasPorPrograma);
-routerFicha.get("/ficha",getFichaPorId)
+routerFicha.get("/ficha/:id",getFichaPorId)
 
 export{routerFicha}

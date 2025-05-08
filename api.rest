@@ -55,7 +55,7 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:8000/aprendiz
-Content-Type: : application/json
+Content-Type: application/json
 
 {
     "idaprendiz":"1"
