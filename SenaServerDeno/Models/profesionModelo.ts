@@ -89,6 +89,7 @@ export class Profesion{
                 throw new Error("Faltan campos requeridos para actualizar el aprendiz");
             } 
             
+            await conexion.execute("START TRANSACTION");
             const result = await conexion.execute(
                 `UPDATE profesion SET nombre_profesion = ? WHERE idprofesion = ?`,[nombre_profesion, idprofesion
             ]);     
