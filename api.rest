@@ -19,3 +19,27 @@ Content-Type: application/json
     "email":"luis@gmail.com",
     "telefonos":"3112824319"
 }
+###
+GET http://localhost:8000/profesion
+###
+POST http://localhost:8000/profesion
+Content-Type: application/json
+
+{
+    "nombre_profesion":"HSQ"
+}
+###
+PUT http://localhost:8000/profesion
+Content-Type: application/json
+
+{
+    "idprofesion":"5",
+    "nombre_profesion":"Desarrollador"
+}
+###
+DELETE http://localhost:8000/profesion
+Content-Type: application/json
+
+{
+    "idprofesion":"5"
+}
