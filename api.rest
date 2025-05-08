@@ -55,8 +55,22 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:8000/aprendiz
-Content-Type: : application/json
+Content-Type: application/json
 
 {
     "idaprendiz":"1"
+}
+
+###
+POST http://localhost:8000/ficha
+Content-Type: application/json
+
+{
+
+  "codigo": "1234567",
+  "fecha_inicio_lectiva": "2025-01-15",
+  "fecha_fin_lectiva": "2025-06-30",
+  "fecha_fin_practica": "2025-12-15",
+  "programa_idprograma": 1
+
 }

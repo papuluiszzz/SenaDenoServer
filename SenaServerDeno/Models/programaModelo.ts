@@ -80,7 +80,7 @@ export class Programa{
                 );
 
                 await conexion.execute("COMMIT");
-                return{ success: true, message:"Aprendiz Actualizado correctamente",programa:programa};
+                return{ success: true, message:"Programa Actualizado correctamente",programa:programa};
             }else{
 
                 throw new Error("No fue posible actualizar el aprendiz")
