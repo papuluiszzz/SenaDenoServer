@@ -1,5 +1,5 @@
 // deno-lint-ignore-file
-import { Profesion } from "../Models/profesionModels.ts";
+import { Profesion } from "../Models/profesionModelo.ts";
 
 
 
