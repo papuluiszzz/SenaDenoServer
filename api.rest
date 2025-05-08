@@ -1,0 +1,9 @@
+POST  http://localhost:8000/aprendiz
+Content-Type: application/json
+
+{
+    "nombres":"Luis",
+    "apellidos":"Salamanca",
+    "email":"luis@gmail.com",
+    "telefonos":"3112824319"
+}
