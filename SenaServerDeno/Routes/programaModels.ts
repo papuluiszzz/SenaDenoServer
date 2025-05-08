@@ -5,7 +5,7 @@ const routerPrograma = new Router();
 
 routerPrograma.get("/programa",getPrograma);
 routerPrograma.post("/programa",postPrograma);
-routerPrograma.put("/programa:id",putPrograma);
-routerPrograma.put("/programa",deletePrograma);
+routerPrograma.put("/programa",putPrograma);
+routerPrograma.delete("/programa",deletePrograma);
 
 export {routerPrograma};

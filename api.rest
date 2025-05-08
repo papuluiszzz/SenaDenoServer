@@ -11,6 +11,26 @@ Content-Type: application/json
 
 ###
 
+PUT http://localhost:8000/programa
+Content-Type: application/json
+
+{
+    "idprograma":"9",
+    "nombre_programa":"Analisis y Desarrollo de Software"
+}
+
+###
+
+DELETE http://localhost:8000/programa
+Content-Type: application/json
+
+{
+    "idprograma":"8",
+    "nombre_programa":""
+}
+
+###
+
 POST  http://localhost:8000/aprendiz
 Content-Type: application/json
 
