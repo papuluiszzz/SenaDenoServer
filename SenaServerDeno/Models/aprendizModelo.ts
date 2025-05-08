@@ -27,6 +27,54 @@ export class Aprendiz{
 
     }
 
+    public async InsertarAprendiz():Promise<{success: boolean; message: string; aprendiz? : Record<string, unknown>}>{
+       
+        try {
+            
+            if (!this._objAprendiz) {
+
+                throw new Error("No se a proporcionado un objeto de aprendi valido")
+            }
+
+            const {nombre, apellido, email, telefono} = this._objAprendiz;
+
+            if(!nombre || !apellido || !email || !telefono ){
+
+                throw new Error("Faltan campos requeridos para insertar el aprendiz.");
+            }
+
+            await conexion.execute("START TRANSACTION");
+
+            const result = await conexion.execute(`insert into aprendiz(nombre,apellido,email,telefono) values(?,?,?,?)`,[
+                nombre,apellido,email,telefono,
+            ]);
+
+            if (result && typeof result.affectedRows === "number" && result.affectedRows > 0) {
+                
+                const[aprendiz] = await conexion.query(`select * from aprendiz where idaprendiz = LAST_INSERT_ID()`,);
+
+                await conexion.execute("COMMIT");
+
+                return {success: true,message:"Aprendiz registrado correctamente",aprendiz:aprendiz};
+            }else{
+
+                throw new Error("No fue posible registrar el usuario");
+            }
+
+        } catch (error) {
+            
+            if (error instanceof z.ZodError) {
+
+                return {success: false,message:error.message}
+                
+            }else{
+
+                return {success:false,message:"Error interno del servidor"}
+            }
+
+        }
+    }
+
     
 
 }
