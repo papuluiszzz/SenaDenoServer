@@ -50,36 +50,46 @@ export class Programa{
         }
     }
 
-    public async ActualizarPrograma(): Promise<{ success: boolean; message: string; programa?: Record<string, unknown> }> {
-        try{
+    public async ActualizarPrograma(): Promise<{success: boolean; message:string; programa?: Record<string, unknown>}>{
+        try {
             if (!this._objPrograma) {
-                throw new Error("No se ha proporcionado un objeto de Programa valido.");
+                throw new Error("No se ha proporcionado un objeto de programa valido")
             }
 
-            const { idprograma, nombre_programa } = this._objPrograma;
+            const { idprograma,nombre_programa } = this._objPrograma;
 
-            if (!idprograma || nombre_programa) {
-                throw new Error("Faltan campos requeridos");
+            if (!idprograma) {
+                throw new Error("Se requiere el ID del programa para actualizarlo");
             }
 
-            await conexion.execute("START TRANSACTION")
-            const result = await conexion.execute('update programa set nombre_programa = ? where idprograma = ?', [idprograma, nombre_programa]);
-            
+            if (!idprograma || !nombre_programa) {
+                throw new Error("Faltan campos requeridos para actualizar el programa");
+            } 
+
+            await conexion.execute("START TRANSACTION");
+
+            const result = await conexion.execute(
+            `UPDATE programa SET nombre_programa = ? WHERE idprograma = ?`,[
+                nombre_programa, idprograma
+            ]);
+
             if (result && typeof result.affectedRows === "number" && result.affectedRows > 0) {
-                const [programa] = await conexion.query('select * from programa where idprograma = ?', [idprograma]);
+                
+                const [programa] = await conexion.query(
+                    `SELECT * FROM programa WHERE idprograma = ?`,[idprograma]
+                );
+
                 await conexion.execute("COMMIT");
-                return { success:true, message:"Programa actualizado exitosamente", programa:programa };
-            } else {
-                await conexion.execute("ROLLBACK");
-                return {success:false, message:"No fué posible actualizar el programa"};
+                return{ success: true, message:"Aprendiz Actualizado correctamente",programa:programa};
+            }else{
+
+                throw new Error("No fue posible actualizar el aprendiz")
             }
         } catch (error) {
-            await conexion.execute("ROLLBACK");
-
             if (error instanceof z.ZodError) {
-                return { success:false, message: error.message };
-            } else {
-                return { success:false, message: "Error interno del servidor" };
+                return {success:false,message: error.message}
+            }else{
+                return {success: false, message:"Error interno del servidor"}
             }
         }
     }
