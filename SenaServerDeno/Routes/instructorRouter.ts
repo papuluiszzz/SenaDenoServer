@@ -8,5 +8,4 @@ routerInstructor.post("/instructor",postInstructor);
 //routerInstructor.put("/aprendiz",putAprendiz);
 //routerInstructor.delete("/aprendiz",deleteAprendiz);
 
-
 export {routerInstructor}

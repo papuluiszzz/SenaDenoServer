@@ -2,6 +2,10 @@ GET http://localhost:8000/programa
 
 ###
 
+GET https://localhost:8000/instructor
+
+###
+
 POST  http://localhost:8000/programa
 Content-Type: application/json
 
@@ -75,8 +79,3 @@ Content-Type: application/json
 
 }
 
-###
-
-GET  https://localhost:8000/instructor
-
-###

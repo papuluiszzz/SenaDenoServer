@@ -13,7 +13,7 @@ app.use(oakCors());
 
 
 
-const routers = [routerAprendiz,routerPrograma,routerFicha, routerInstructor]
+const routers = [routerAprendiz,routerPrograma,routerFicha,routerInstructor]
 
 
 routers.forEach((router)=>{
