@@ -2,7 +2,7 @@ import { Application, oakCors } from "./Dependencies/dependencias.ts";
 
 
 import { routerAprendiz } from "./Routes/aprendizRoutes.ts";
-import { routerPrograma } from./Routes/programaRouter.tsts";
+import { routerPrograma } from "./Routes/programaRouter.ts";
 import { routerFicha } from "./Routes/fichaRouter.ts";
 
 
