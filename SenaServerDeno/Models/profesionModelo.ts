@@ -90,11 +90,9 @@ export class Profesion{
             } 
             
             await conexion.execute("START TRANSACTION");
-
             const result = await conexion.execute(
-                `UPDATE profesion SET nombre_profesion = ?`,[nombre_profesion,idprofesion
-
-                ]);
+                `UPDATE profesion SET nombre_profesion = ? WHERE idprofesion = ?`,[nombre_profesion, idprofesion
+            ]);     
 
                 if (result && typeof result.affectedRows === "number" && result.affectedRows>0){
                     const [profesion] = await conexion.query(

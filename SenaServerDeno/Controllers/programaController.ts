@@ -1,7 +1,5 @@
 // deno-lint-ignore-file
-import { number } from "https://deno.land/x/zod@v3.24.1/types.ts";
-import { Programa } from "../Models/programaModelo.ts";
-import { errors } from "jsr:@oak/commons@^1.0/http_errors";
+import { Programa } from '../Models/programaModelo.ts';
 
 export const getPrograma = async(ctx:any)=>{
     const { response } = ctx;

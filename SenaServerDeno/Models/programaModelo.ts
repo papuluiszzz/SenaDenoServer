@@ -69,9 +69,9 @@ export class Programa{
             await conexion.execute("START TRANSACTION");
 
             const result = await conexion.execute(
-            `UPDATE programa SET nombre_programa = ? `,[
-                nombre_programa, idprograma
-            ]);
+                `UPDATE programa SET nombre_programa = ? WHERE idprograma = ?`,[
+                    nombre_programa, idprograma
+                ]);
 
             if (result && typeof result.affectedRows === "number" && result.affectedRows > 0) {
                 

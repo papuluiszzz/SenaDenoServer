@@ -19,7 +19,7 @@ PUT http://localhost:8000/programa
 Content-Type: application/json
 
 {
-    "idprograma":"9",
+    "idprograma":"1",
     "nombre_programa":"Analisis y Desarrollo de Software"
 }
 
@@ -77,22 +77,37 @@ Content-Type: application/json
 DELETE http://localhost:8000/profesion
 Content-Type: application/json
 {
-  "codigo": "1234567",
-  "fecha_inicio_lectiva": "2025-01-15",
-  "fecha_fin_lectiva": "2025-06-30",
-  "fecha_fin_practica": "2025-12-15",
-  "programa_idprograma": 1
+  "idprofesion": "7"
+}
 
+###
+POST http://localhost:8000/ficha-aprendiz
+Content-Type: application/json
+
+{
+  "ficha_idficha": 1,
+  "aprendiz_idaprendiz": 2,
+  "instructor_idinstructor": 1
+}
+###
+
+DELETE  http://localhost:8000/ficha-aprendiz
+Content-Type: application/json
+
+{
+  "ficha_idficha": 1,
+  "aprendiz_idaprendiz": 2
+  
 }
 
 ###
 
-POST https://localhost:8000/instructor
+POST http://localhost:8000/instructor
 Content-Type: application/json
 
 {
-  "nombre": "1234567",
-  "apellido": "2025-01-15",
-  "email": "2025-06-30",
-  "telefono": "2025-12-15"
+  "nombre": "Gustavo ",
+  "apellido": "Jimenez",
+  "email": "gimenez@gmail.com",
+  "telefono":"3221993829"
 }
