@@ -117,56 +117,46 @@ export const putAprendiz = async(ctx: any)=>{
     
 }
 
-    export const deleteAprendiz  = async (ctx: any)=>{
-
-        const {response,request} = ctx;
-
-        try {
-
-            const contentLength = request.headers.get("Content-Length");
-
-            if (contentLength === "0") {
-                response.status = 400;
-                response.body = {success:false, msg:"El ID del usuario es requerido para eliminarlo"};
-                return;
-                
-            }
-
-            const body = await request.body.json();
-
-            if (!body.idaprendiz) {
-
-                response.status = 400;
-                response.body = {success:false, msg:"El ID del aprendiz es requerido para eliminarlo"};
-                return;
-                
-            }
-
-            const objAprendiz = new Aprendiz();
-            objAprendiz._objAprendiz = {
-                idaprendiz: body.idaprendiz,
-                nombre:"",
-                apellido:"",
-                email:"",
-                telefono:""
-
-            };
-
-            const result = await objAprendiz.EliminarAprendiz();
-
-            response.status = 200;
-            response.body = {
-                success:true,
-                body:result,
-            };
-            
-        } catch (error) {
+    export const deleteAprendiz = async (ctx: any) => {
+    const { response, request } = ctx;
+    try {
+        const contentLength = request.headers.get("Content-Length");
+        if (contentLength === "0") {
             response.status = 400;
-            response.body = {
-                success:false,
-                msg:"Error al procesar la solicitud"
-            }
+            response.body = { success: false, msg: "El ID del usuario es requerido para eliminarlo" };
+            return;
+        }
 
+        const body = await request.body.json();
+        if (!body.idaprendiz) {
+            response.status = 400;
+            response.body = { success: false, msg: "El ID del aprendiz es requerido para eliminarlo" };
+            return;
+        }
+
+        // Forma más consistente de crear el objeto Aprendiz para eliminación
+        const AprendizData = {
+            idaprendiz: body.idaprendiz,
+            nombre: "",
+            apellido: "",
+            email: "",
+            telefono: ""
+        };
+        
+        const objAprendiz = new Aprendiz(AprendizData);
+        const result = await objAprendiz.EliminarAprendiz();
+
+        response.status = 200;
+        response.body = {
+            success: true,
+            body: result,
+        };
+    } catch (error) {
+        response.status = 400;
+        response.body = {
+            success: false,
+            msg: "Error al procesar la solicitud"
         }
     }
+}
 

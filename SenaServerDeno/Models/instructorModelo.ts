@@ -116,15 +116,32 @@ export class Instructor {
 
             await conexion.execute("START TRANSACTION")
 
-            const [existingProgram] = await conexion.query('select * from instructor where idinstructor = ?', [idinstructor]);
+             // Verificar si el instructor está asociado a alguna ficha
+        const { rows: relacionFicha } = await conexion.execute(
+            "SELECT * FROM ficha_has_aprendiz WHERE instructor_idinstructor = ?",
+            [idinstructor]
+        );
+        if (relacionFicha && relacionFicha.length > 0) {
+            await conexion.execute("ROLLBACK");
+            return {
+                success: false,
+                message: "No se puede eliminar el instructor porque está asignado a aprendices"
+            };
+        }
 
-            if (!existingProgram || existingProgram.length === 0) {
-                await conexion.execute("ROLLBACK");
-                return {
-                    success: false,
-                    message: "No se encontró el instructor especificado"
-                };
-            }
+        // Verificar si el instructor tiene profesiones asignadas
+        const { rows: relacionProfesion } = await conexion.execute(
+            "SELECT * FROM instructor_has_profesion WHERE instructor_idinstructor = ?",
+            [idinstructor]
+        );
+
+        if (relacionProfesion && relacionProfesion.length > 0) {
+            await conexion.execute("ROLLBACK");
+            return {
+                success: false,
+                message: "No se puede eliminar el instructor porque tiene profesiones asignadas"
+            };
+        }
 
             const result = await conexion.execute('delete from instructor where idinstructor = ?', [idinstructor]);
             

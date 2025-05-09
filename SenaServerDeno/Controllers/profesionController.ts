@@ -92,7 +92,7 @@ export const putprofesion = async (ctx:any)=>{
 }
 
 }
-export const deliteProfesion = async(ctx:any)=>{
+export const deleteProfesion = async(ctx:any)=>{
     const {response, request} = ctx;
     try {
         const contentLength = request.headers.get("Content-Length");

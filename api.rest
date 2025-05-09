@@ -147,5 +147,5 @@ Content-Type: application/json
 
 {
   "instructor_idinstructor": 1,
-  "profesion_idprofesion": 2
+  "profesion_idprofesion": 1
 }

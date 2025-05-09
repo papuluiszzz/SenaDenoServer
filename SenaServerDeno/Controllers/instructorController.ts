@@ -1,8 +1,6 @@
 // deno-lint-ignore-file
 
-import { number } from "https://deno.land/x/zod@v3.24.1/types.ts";
 import { Instructor } from "../Models/instructorModelo.ts";
-import { errors } from "jsr:@oak/commons@^1.0/http_errors";
 
 export const getInstructor = async(ctx:any)=>{
     const { response } = ctx;

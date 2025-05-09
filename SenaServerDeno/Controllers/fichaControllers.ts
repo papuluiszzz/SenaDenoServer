@@ -193,7 +193,17 @@ export const deleteFicha = async (ctx: any) => {
             return;
         }
 
-        const objFicha = new Ficha(null, body.idficha);
+        // Forma más consistente con el resto del código
+        const FichaData = {
+            idficha: body.idficha,
+            codigo: "",
+            fecha_inicio_lectiva: "",
+            fecha_fin_lectiva: "",
+            fecha_fin_practica: "",
+            programa_idprograma: 0
+        };
+        
+        const objFicha = new Ficha(FichaData);
         const result = await objFicha.EliminarFicha();
         
         response.status = result.success ? 200 : 400;

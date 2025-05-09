@@ -1,9 +1,10 @@
 import { conexion } from "./conexion.ts";
 import { z } from "../Dependencies/dependencias.ts";
 
-interface InstructorHasProfesionData{
-    instructor_idinstructor:number;
-    profesion_idprofesion:number;
+interface InstructorHasProfesionData {
+    instructor_idinstructor: number;
+    profesion_idprofesion: number;
+    nueva_profesion_idprofesion?: number; // Agregado como propiedad opcional
 }
 
 //interfaz extendida para que me permite ver los resultado con detalles de instructor y profesion
