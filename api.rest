@@ -87,6 +87,12 @@ Content-Type: application/json
 
 ###
 
-GET  https://localhost:8000/instructor
+POST https://localhost:8000/instructor
+Content-Type: application/json
 
-###
+{
+  "nombre": "1234567",
+  "apellido": "2025-01-15",
+  "email": "2025-06-30",
+  "telefono": "2025-12-15"
+}
