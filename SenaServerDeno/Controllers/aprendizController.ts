@@ -11,7 +11,7 @@ export const getAprendiz = async (ctx: any)=>{
         
         const objAprendiz = new Aprendiz();
         const listaaprendiz = await objAprendiz.SeleccionarAprendiz();
-        response.body = 200;
+        response.status = 200;
         response.body ={
             success:true,
             data:listaaprendiz,

@@ -140,3 +140,12 @@ Content-Type: application/json
   "email":"",
   "telefono":""
 }
+
+### Asignar una profesión a un instructor
+POST http://localhost:8000/instructor-profesion
+Content-Type: application/json
+
+{
+  "instructor_idinstructor": 1,
+  "profesion_idprofesion": 2
+}

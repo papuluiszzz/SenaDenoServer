@@ -13,7 +13,7 @@ export const getprofesion = async (ctx:any)=>{
     try{
         const objprofesion = new Profesion();
         const listaprofesion = await objprofesion.SeleccionarProfesion();
-        response.body = 200;
+        response.status = 200;
         response.body = {
             success:true,
             data:listaprofesion,

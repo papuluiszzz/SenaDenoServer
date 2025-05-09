@@ -5,6 +5,7 @@ import { routerFichaHasAprendiz } from "./Routes/ficha_has_aprendiz.ts";
 import { routerFicha } from "./Routes/fichaRouter.ts";
 import { routerInstructor } from "./Routes/instructorRouter.ts";
 import {routerprofesion} from "./Routes/profesionRouter.ts";
+import {routerInstructorHasProfesion} from "./Routes/instructorHasProfesioRouter.ts"
 
 
 
@@ -15,7 +16,7 @@ app.use(oakCors());
 
 
 
-const routers = [routerAprendiz,routerPrograma,routerFicha,routerInstructor,routerprofesion,routerFichaHasAprendiz,routerFichaHasAprendiz]
+const routers = [routerAprendiz, routerPrograma, routerFicha, routerInstructor, routerprofesion, routerFichaHasAprendiz, routerInstructorHasProfesion]
 
 
 

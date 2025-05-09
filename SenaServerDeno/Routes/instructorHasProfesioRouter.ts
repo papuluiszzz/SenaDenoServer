@@ -1,10 +1,11 @@
 import { Router } from "../Dependencies/dependencias.ts";
 
-import { getInstructorHasProfesion, 
+import { 
+    getInstructorHasProfesion, 
     postInstructorHasProfesion, 
     putInstructorHasProfesion, 
     deleteInstructorHasProfesion 
- } from "../Controllers/programaController.ts";
+} from "../Controllers/instructor_has_profesionController.ts";
 
  const routerInstructorHasProfesion = new Router();
 

@@ -45,45 +45,41 @@ public async SeleccionarInstructorHasProfesion(): Promise<InstructorHasInstructo
 public async InsertarInstructorHasProfesion(): Promise<{ success: boolean; message: string; registro?: Record<string, unknown>}>{
 
     try {
-
-        if( !this._objInstructorHasProfesion){
-              throw new Error("No se ha proporcionado un objeto de relacion válido");
+        if (!this._objInstructorHasProfesion) {
+            throw new Error("No se ha proporcionado un objeto de relación válido");
         }
         
-        const { instructor_idinstructor,profesion_idprofesion } = this._objInstructorHasProfesion;
+        const { instructor_idinstructor, profesion_idprofesion } = this._objInstructorHasProfesion;
 
-        if(!instructor_idinstructor || !profesion_idprofesion){
-            throw new Error("Faltan campos requeridos para la relacion");
+        if (!instructor_idinstructor || !profesion_idprofesion) {
+            throw new Error("Faltan campos requeridos para la relación");
         }
 
         await conexion.execute("START TRANSACTION");
 
-        //Verificar que existe el instructor
-        const {rows:instructores} = await conexion.execute( 
-            
+        // Verificar que existe el instructor
+        const { rows: instructores } = await conexion.execute(
             "SELECT * FROM instructor WHERE idinstructor = ?",
-        [instructor_idinstructor]);
+            [instructor_idinstructor]
+        );
 
         if (!instructores || instructores.length === 0) {
             await conexion.execute("ROLLBACK");
-            return {success: false,message:"El instructor especificado no existe"};
-            
+            return { success: false, message: "El instructor especificado no existe" };
         }
 
-        //Verificar que exista la profesion
-
-        const {rows:profesiones} = await conexion.execute( 
-            
+        // Verificar que exista la profesión
+        const { rows: profesiones } = await conexion.execute(
             "SELECT * FROM profesion WHERE idprofesion = ?",
-        [profesion_idprofesion]);
+            [profesion_idprofesion]
+        );
 
-        if (!profesiones|| profesiones.length === 0) {
+        if (!profesiones || profesiones.length === 0) {
             await conexion.execute("ROLLBACK");
-            return {success: false,message:"La profesion especificado no existe"};
-            
+            return { success: false, message: "La profesión especificada no existe" }; // Corregido
         }
 
-        //Verificar si la relacion ya existe
+        // Verificar si la relación ya existe
         const { rows: existeRelacion } = await conexion.execute(
             "SELECT * FROM instructor_has_profesion WHERE instructor_idinstructor = ? AND profesion_idprofesion = ?",
             [instructor_idinstructor, profesion_idprofesion]
@@ -94,8 +90,8 @@ public async InsertarInstructorHasProfesion(): Promise<{ success: boolean; messa
             return { success: false, message: "El instructor ya tiene asignada esta profesión" };
         }
 
-          // Continuar con la inserción...
-          const result = await conexion.execute(
+        // Continuar con la inserción...
+        const result = await conexion.execute(
             `INSERT INTO instructor_has_profesion (instructor_idinstructor, profesion_idprofesion) 
              VALUES (?, ?)`,
             [instructor_idinstructor, profesion_idprofesion]
@@ -123,20 +119,67 @@ public async InsertarInstructorHasProfesion(): Promise<{ success: boolean; messa
         } else {
             throw new Error("No fue posible registrar la relación");
         }
-        
-        
     } catch (error) {
         await conexion.execute("ROLLBACK");
-       
+        
         if (error instanceof z.ZodError) {
-            return {success: false, message:error.message}
-        }else{
-            return {success:false,message:"Error interno del servidor"}
+            return { success: false, message: error.message };
+        } else {
+            return { success: false, message: "Error interno del servidor" };
+        }
+    }
+}
+
+public async EliminarInstructorHasProfesion(): Promise<{ success: boolean; message: string }> {
+    try {
+        if (!this._objInstructorHasProfesion) {
+            throw new Error("No se ha proporcionado un objeto de relación válido");
         }
 
+        const { instructor_idinstructor, profesion_idprofesion } = this._objInstructorHasProfesion;
+
+        if (!instructor_idinstructor || !profesion_idprofesion) {
+            throw new Error("Faltan campos requeridos para eliminar la relación");
+        }
+
+        await conexion.execute("START TRANSACTION");
+
+        // Verificar si la relación existe
+        const { rows: existeRelacion } = await conexion.execute(
+            "SELECT * FROM instructor_has_profesion WHERE instructor_idinstructor = ? AND profesion_idprofesion = ?",
+            [instructor_idinstructor, profesion_idprofesion]
+        );
+
+        if (!existeRelacion || existeRelacion.length === 0) {
+            await conexion.execute("ROLLBACK");
+            return { success: false, message: "La relación no existe" };
+        }
+
+        // Ejecutar la eliminación
+        const result = await conexion.execute(
+            "DELETE FROM instructor_has_profesion WHERE instructor_idinstructor = ? AND profesion_idprofesion = ?",
+            [instructor_idinstructor, profesion_idprofesion]
+        );
+
+        if (result && typeof result.affectedRows === "number" && result.affectedRows > 0) {
+            await conexion.execute("COMMIT");
+            return { 
+                success: true, 
+                message: "Profesión desasignada correctamente del instructor" 
+            };
+        } else {
+            throw new Error("No fue posible eliminar la relación");
+        }
+
+    } catch (error) {
+        await conexion.execute("ROLLBACK");
+        
+        if (error instanceof z.ZodError) {
+            return { success: false, message: error.message };
+        } else {
+            return { success: false, message: "Error interno del servidor" };
+        }
     }
-
-
 }
 
 public async ActualizarInstructorHasProfesion(): Promise<{ success: boolean; message: string; registro?: Record<string, unknown> }> {
@@ -241,58 +284,6 @@ public async ActualizarInstructorHasProfesion(): Promise<{ success: boolean; mes
         } else {
             throw new Error("No fue posible actualizar la relación");
         }
-    } catch (error) {
-        await conexion.execute("ROLLBACK");
-        
-        if (error instanceof z.ZodError) {
-            return { success: false, message: error.message };
-        } else {
-            return { success: false, message: "Error interno del servidor" };
-        }
-    }
-}
-
-public async EliminarInstructorHasProfesion(): Promise<{ success: boolean; message: string }> {
-    try {
-        if (!this._objInstructorHasProfesion) {
-            throw new Error("No se ha proporcionado un objeto de relación válido");
-        }
-
-        const { instructor_idinstructor, profesion_idprofesion } = this._objInstructorHasProfesion;
-
-        if (!instructor_idinstructor || !profesion_idprofesion) {
-            throw new Error("Faltan campos requeridos para eliminar la relación");
-        }
-
-        await conexion.execute("START TRANSACTION");
-
-        // Verificar si la relación existe
-        const { rows: existeRelacion } = await conexion.execute(
-            "SELECT * FROM instructor_has_profesion WHERE instructor_idinstructor = ? AND profesion_idprofesion = ?",
-            [instructor_idinstructor, profesion_idprofesion]
-        );
-
-        if (!existeRelacion || existeRelacion.length === 0) {
-            await conexion.execute("ROLLBACK");
-            return { success: false, message: "La relación no existe" };
-        }
-
-        // Ejecutar la eliminación
-        const result = await conexion.execute(
-            "DELETE FROM instructor_has_profesion WHERE instructor_idinstructor = ? AND profesion_idprofesion = ?",
-            [instructor_idinstructor, profesion_idprofesion]
-        );
-
-        if (result && typeof result.affectedRows === "number" && result.affectedRows > 0) {
-            await conexion.execute("COMMIT");
-            return { 
-                success: true, 
-                message: "Profesión desasignada correctamente del instructor" 
-            };
-        } else {
-            throw new Error("No fue posible eliminar la relación");
-        }
-
     } catch (error) {
         await conexion.execute("ROLLBACK");
         
