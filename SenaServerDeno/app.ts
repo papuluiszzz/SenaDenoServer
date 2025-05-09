@@ -15,7 +15,7 @@ app.use(oakCors());
 
 
 
-const routers = [routerAprendiz,routerPrograma,routerFicha,routerInstructor,routerprofesion,routerFichaHasAprendiz]
+const routers = [routerAprendiz,routerPrograma,routerFicha,routerInstructor,routerprofesion,routerFichaHasAprendiz,routerFichaHasAprendiz]
 
 
 
