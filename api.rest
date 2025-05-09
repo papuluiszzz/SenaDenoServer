@@ -1,8 +1,7 @@
 GET http://localhost:8000/programa
 
 ###
-
-GET https://localhost:8000/instructor
+GET http://localhost:8000/instructor
 
 ###
 
@@ -40,9 +39,9 @@ Content-Type: application/json
 
 {
     "nombres":"Luis",
-    "apellidos":"Salamanca",
-    "email":"luis@gmail.com",
-    "telefonos":"3112824319"
+    "apellidos":"Perez",
+    "email":"Perez@gmail.com",
+    "telefonos":"31187996"
 }
 
 ###
@@ -87,7 +86,7 @@ Content-Type: application/json
 {
   "ficha_idficha": 1,
   "aprendiz_idaprendiz": 2,
-  "instructor_idinstructor": 1
+  "instructor_idinstructor": 2
 }
 ###
 
@@ -106,8 +105,11 @@ POST http://localhost:8000/instructor
 Content-Type: application/json
 
 {
-  "nombre": "Gustavo ",
-  "apellido": "Jimenez",
-  "email": "gimenez@gmail.com",
-  "telefono":"3221993829"
+  "nombre": "Marcos",
+  "apellido": "Piragauta",
+  "email": "marcos@gmail.com",
+  "telefono":"315637283"
 }
+###
+
+GET http://localhost:8000/ficha-aprendiz
