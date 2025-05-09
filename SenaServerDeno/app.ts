@@ -1,9 +1,7 @@
 import { Application, oakCors } from "./Dependencies/dependencias.ts";
-
-
-
 import { routerAprendiz } from "./Routes/aprendizRouter.ts";
-import { routerPrograma } from "./Routes/programaRouter.ts";
+import { routerPrograma } from "./Routes/programaRouter.ts"
+import { routerFichaHasAprendiz } from "./Routes/ficha_has_aprendiz.ts";
 import { routerFicha } from "./Routes/fichaRouter.ts";
 import { routerInstructor } from "./Routes/instructorRouter.ts";
 import {routerprofesion} from "./Routes/profesionRouter.ts";
@@ -16,7 +14,8 @@ app.use(oakCors());
 
 
 
-const routers = [routerAprendiz,routerPrograma,routerFicha,routerInstructor,routerprofesion]
+
+const routers = [routerAprendiz,routerPrograma,routerFicha,routerInstructor,routerprofesion,routerFichaHasAprendiz]
 
 
 

@@ -10,6 +10,12 @@ interface FichaData {
     programa_idprograma: number;
 }
 
+// Interfaz extendida para incluir el nombre del programa
+interface FichaConPrograma extends FichaData {
+    nombre_programa: string;
+    [key: string]: unknown; // Para permitir otros campos adicionales
+}
+
 export class Ficha {
     public _objFicha: FichaData | null;
     public _idFicha: number | null;
@@ -19,16 +25,16 @@ export class Ficha {
         this._idFicha = idFicha;
     }
 
-    public async SeleccionarFichas(): Promise<FichaData[]> {
+    public async SeleccionarFichas(): Promise<FichaConPrograma[]> {
         const { rows: fichas } = await conexion.execute(`
             SELECT f.*, p.nombre_programa 
             FROM ficha f
             JOIN programa p ON f.programa_idprograma = p.idprograma
         `);
-        return fichas as FichaData[];
+        return fichas as FichaConPrograma[];
     }
 
-    public async SeleccionarFichaPorId(idficha: number): Promise<FichaData | null> {
+    public async SeleccionarFichaPorId(idficha: number): Promise<FichaConPrograma | null> {
         const { rows: fichas } = await conexion.execute(
             `SELECT f.*, p.nombre_programa 
              FROM ficha f
@@ -38,20 +44,21 @@ export class Ficha {
         );
         
         if (fichas && fichas.length > 0) {
-            return fichas[0] as FichaData;
+            return fichas[0] as FichaConPrograma;
         }
         return null;
     }
-    public async SeleccionarFichasPorPrograma(idprograma: number): Promise<FichaData[]> {
-    const { rows: fichas } = await conexion.execute(
-        `SELECT f.*, p.nombre_programa 
-         FROM ficha f
-         JOIN programa p ON f.programa_idprograma = p.idprograma
-         WHERE f.programa_idprograma = ?`,
-        [idprograma]
-    );
-    return fichas as FichaData[];
-}
+
+    public async SeleccionarFichasPorPrograma(idprograma: number): Promise<FichaConPrograma[]> {
+        const { rows: fichas } = await conexion.execute(
+            `SELECT f.*, p.nombre_programa 
+             FROM ficha f
+             JOIN programa p ON f.programa_idprograma = p.idprograma
+             WHERE f.programa_idprograma = ?`,
+            [idprograma]
+        );
+        return fichas as FichaConPrograma[];
+    }
 
 public async InsertarFicha(): Promise<{ success: boolean; message: string; ficha?: Record<string, unknown> }> {
     try {
