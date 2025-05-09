@@ -6,6 +6,7 @@ import { errors } from "jsr:@oak/commons@^1.0/http_errors";
 
 export const getInstructor = async(ctx:any)=>{
     const { response } = ctx;
+
     try {
         const objPrograma = new Instructor();
         const listaProgramas = await objPrograma.SeleccionarInstructores();
