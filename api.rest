@@ -89,6 +89,16 @@ Content-Type: application/json
   "aprendiz_idaprendiz": 2,
   "instructor_idinstructor": 1
 }
+###
+
+DELETE  http://localhost:8000/ficha-aprendiz
+Content-Type: application/json
+
+{
+  "ficha_idficha": 1,
+  "aprendiz_idaprendiz": 2
+  
+}
 
 ###
 
