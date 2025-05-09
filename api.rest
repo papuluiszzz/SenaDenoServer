@@ -114,3 +114,29 @@ Content-Type: application/json
 ###
 
 GET http://localhost:8000/ficha-aprendiz
+
+###
+
+PUT http://localhost:8000/instructor
+Content-Type: application/json
+
+{
+  "idinstructor":"2",
+  "nombre":"julian",
+  "apellido":"angarita",
+  "email":"julian@gmail.com",
+  "telefono":"3124569871"
+}
+
+###
+
+DELETE http://localhost:8000/instructor
+Content-Type: application/json
+
+{
+  "idinstructor":"2",
+  "nombre":"",
+  "apellido":"",
+  "email":"",
+  "telefono":""
+}
