@@ -80,3 +80,24 @@ Content-Type: application/json
   "idprofesion": "7"
 }
 
+###
+POST http://localhost:8000/ficha-aprendiz
+Content-Type: application/json
+
+{
+  "ficha_idficha": 1,
+  "aprendiz_idaprendiz": 2,
+  "instructor_idinstructor": 1
+}
+
+###
+
+POST http://localhost:8000/instructor
+Content-Type: application/json
+
+{
+  "nombre": "Gustavo ",
+  "apellido": "Jimenez",
+  "email": "gimenez@gmail.com",
+  "telefono":"3221993829"
+}
