@@ -15,7 +15,7 @@ export const getInstructorHasProfesion = async (ctx: any) => {
         response.status = 400;
         response.body = {
             success: false,
-            msg: "Error al procesar tu solicitud",
+            message: "Error al procesar tu solicitud",
             errors: error
         };
     }
@@ -29,7 +29,7 @@ export const postInstructorHasProfesion = async (ctx: any) => {
 
         if (contentLength === "0") {
             response.status = 400;
-            response.body = { success: false, msg: "Cuerpo de la solicitud está vacío" };
+            response.body = { success: false, message: "Cuerpo de la solicitud está vacío" };
             return;
         }
 
@@ -52,7 +52,7 @@ export const postInstructorHasProfesion = async (ctx: any) => {
         response.status = 400;
         response.body = {
             success: false,
-            msg: "Error al procesar la solicitud"
+            message: "Error al procesar la solicitud"
         };
     }
 }
@@ -119,7 +119,7 @@ export const deleteInstructorHasProfesion = async (ctx: any) => {
 
         if (contentLength === "0") {
             response.status = 400;
-            response.body = { success: false, msg: "Los datos son requeridos para eliminar la relación" };
+            response.body = { success: false, message: "Los datos son requeridos para eliminar la relación" };
             return;
         }
 
@@ -129,7 +129,7 @@ export const deleteInstructorHasProfesion = async (ctx: any) => {
             response.status = 400;
             response.body = { 
                 success: false, 
-                msg: "Se requieren el ID del instructor y el ID de la profesión para eliminar la relación" 
+                message: "Se requieren el ID del instructor y el ID de la profesión para eliminar la relación" 
             };
             return;
         }
@@ -151,7 +151,7 @@ export const deleteInstructorHasProfesion = async (ctx: any) => {
         response.status = 400;
         response.body = {
             success: false,
-            msg: "Error al procesar la solicitud"
+           message: "Error al procesar la solicitud"
         };
     }
 }
