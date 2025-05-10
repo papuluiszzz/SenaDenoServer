@@ -236,7 +236,8 @@ public async EliminarFicha(): Promise<{ success: boolean; message: string }> {
             "SELECT * FROM ficha_has_aprendiz WHERE ficha_idficha = ?",
             [this._idFicha]
         );
-        
+
+        // Primera validación para aprendices asignados
         if (existeRelacionAprendiz && existeRelacionAprendiz.length > 0) {
             await conexion.execute("ROLLBACK");
             return { 
@@ -244,6 +245,16 @@ public async EliminarFicha(): Promise<{ success: boolean; message: string }> {
                 message: "No se puede eliminar la ficha porque tiene aprendices asignados" 
             };
         }
+        
+        // Segunda validación con un mensaje más detallado
+        if (existeRelacionAprendiz && existeRelacionAprendiz.length > 0) {
+            await conexion.execute("ROLLBACK");
+            return { 
+                success: false, 
+                message: `No se puede eliminar la ficha porque tiene ${existeRelacionAprendiz.length} aprendices asignados. Elimine primero estas relaciones.` 
+            };
+        }
+        
         const result = await conexion.execute(
             "DELETE FROM ficha WHERE idficha = ?",
             [this._idFicha]

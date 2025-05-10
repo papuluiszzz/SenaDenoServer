@@ -1,151 +1,118 @@
+### Obtener todos los programas
 GET http://localhost:8000/programa
 
-###
-GET http://localhost:8000/instructor
 
-###
-
-POST  http://localhost:8000/programa
+### Crear un nuevo programa
+POST http://localhost:8000/programa
 Content-Type: application/json
 
 {
-    "nombre_programa":"ADSO"
+  "nombre_programa": "Desarrollo de Software"
 }
 
-###
-
+### Actualizar un programa
 PUT http://localhost:8000/programa
 Content-Type: application/json
 
 {
-    "idprograma":"1",
-    "nombre_programa":"Analisis y Desarrollo de Software"
+  "idprograma": "4",
+  "nombre_programa": "Arquitectura"
 }
 
-###
-
+### Eliminar un programa (sin fichas asociadas)
 DELETE http://localhost:8000/programa
 Content-Type: application/json
 
 {
-    "idprograma":"8",
-    "nombre_programa":""
+  "idprograma": "2"
 }
 
-###
+### Obtener todas las fichas
+GET http://localhost:8000/ficha
 
-POST  http://localhost:8000/aprendiz
+### Obtener ficha por ID
+GET http://localhost:8000/ficha/2
+
+### Obtener fichas por programa
+GET http://localhost:8000/ficha/programa/2
+
+### Crear una nueva ficha
+POST http://localhost:8000/ficha
 Content-Type: application/json
 
 {
-    "nombres":"Luis",
-    "apellidos":"Perez",
-    "email":"Perez@gmail.com",
-    "telefonos":"31187996"
+  "codigo": "ADSI2027",
+  "fecha_inicio_lectiva": "2025-01-15",
+  "fecha_fin_lectiva": "2025-07-15",
+  "fecha_fin_practica": "2026-01-15",
+  "programa_idprograma": 4
 }
 
-###
-PUT  http://localhost:8000/aprendiz
+### Actualizar una ficha
+PUT http://localhost:8000/ficha
 Content-Type: application/json
 
 {
-    "idaprendiz":"1",
-    "nombres":"Luis",
-    "apellidos":"Guezguan",
-    "email":"luis@gmail.com",
-    "telefonos":"3112824319"
+  "idficha": "2",
+  "codigo": "ADSI2026",
+  "fecha_inicio_lectiva": "2025-02-02",
+  "fecha_fin_lectiva": "2025-08-01",
+  "fecha_fin_practica": "2026-02-01",
+  "programa_idprograma": 2
 }
-###
-GET http://localhost:8000/profesion
-###
-POST http://localhost:8000/profesion
+
+### Eliminar una ficha (sin aprendices asociados)
+DELETE http://localhost:8000/ficha
 Content-Type: application/json
 
 {
-    "nombre_profesion":"Maquinaria Pesada"
+  "idficha": "4"
 }
-###
-PUT http://localhost:8000/profesion
+
+### Obtener todos los aprendices
+GET http://localhost:8000/aprendiz
+
+### Crear un nuevo aprendiz
+POST http://localhost:8000/aprendiz
 Content-Type: application/json
 
 {
-    "idprofesion":"7",
-    "nombre_profesion":"Desarrollador y analisis"
-}
-###
-DELETE http://localhost:8000/profesion
-Content-Type: application/json
-{
-  "idprofesion": "7"
+  "nombres": "Maria",
+  "apellidos": "Rodriguez",
+  "email": "maria.rodriguez@gmail.com",
+  "telefonos": "3101234567"
 }
 
-###
-POST http://localhost:8000/ficha-aprendiz
+### Actualizar un aprendiz
+PUT http://localhost:8000/aprendiz
 Content-Type: application/json
 
 {
-  "ficha_idficha": 1,
-  "aprendiz_idaprendiz": 2,
-  "instructor_idinstructor": 2
+  "idaprendiz": "2",
+  "nombres": "Maria",
+  "apellidos": "Rodriguez Garcia",
+  "email": "maria.rodriguez@gmail.com",
+  "telefonos": "3101234567"
 }
-###
 
-DELETE  http://localhost:8000/ficha-aprendiz
+### Eliminar un aprendiz (sin relaciones)
+DELETE http://localhost:8000/aprendiz
 Content-Type: application/json
 
 {
-  "ficha_idficha": 1,
-  "aprendiz_idaprendiz": 2
-  
+  "idaprendiz": "2"
 }
 
-###
+### Obtener todos los instructores
+GET http://localhost:8000/instructor
 
+### Crear un nuevo instructor
 POST http://localhost:8000/instructor
 Content-Type: application/json
 
 {
-  "nombre": "Gustavo ",
-  "apellido": "Jimenez",
-  "email": "gimenez@gmail.com",
-  "telefono":"3221993829"
-}
-
-###
-
-GET http://localhost:8000/ficha-aprendiz
-
-###
-
-PUT http://localhost:8000/instructor
-Content-Type: application/json
-
-{
-  "idinstructor":"2",
-  "nombre":"julian",
-  "apellido":"angarita",
-  "email":"julian@gmail.com",
-  "telefono":"3124569871"
-}
-
-###
-
-DELETE http://localhost:8000/instructor
-Content-Type: application/json
-
-{
-  "idinstructor":"2",
-  "nombre":"",
-  "apellido":"",
-  "email":"",
-  "telefono":""
-}
-
-### Asignar una profesión a un instructor
-POST http://localhost:8000/instructor-profesion
-Content-Type: application/json
-
-{
-  "instructor_idinstructor": 1,
-  "profesion_idprofesion": 1
+  "nombre": "Carlos",
+  "apellido": "Gomez",
+  "email": "carlos.gomez@gmail.com",
+  "telefono": "3159876543"
 }

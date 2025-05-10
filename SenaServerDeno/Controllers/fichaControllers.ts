@@ -193,9 +193,9 @@ export const deleteFicha = async (ctx: any) => {
             return;
         }
 
-        // Forma más consistente con el resto del código
+        // Mantener la estructura con FichaData
         const FichaData = {
-            idficha: body.idficha,
+            idficha: parseInt(body.idficha),  // Convertir a número
             codigo: "",
             fecha_inicio_lectiva: "",
             fecha_fin_lectiva: "",
@@ -203,7 +203,9 @@ export const deleteFicha = async (ctx: any) => {
             programa_idprograma: 0
         };
         
-        const objFicha = new Ficha(FichaData);
+        // Pasar también el ID como segundo parámetro para que _idFicha se establezca
+        const objFicha = new Ficha(FichaData, parseInt(body.idficha));
+        
         const result = await objFicha.EliminarFicha();
         
         response.status = result.success ? 200 : 400;

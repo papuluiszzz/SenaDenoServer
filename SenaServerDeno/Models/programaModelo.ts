@@ -110,6 +110,21 @@ export class Programa{
 
             const [existingProgram] = await conexion.query('select * from programa where idprograma = ?', [idprograma]);
 
+
+            // Antes de intentar eliminar, verifica si hay fichas que usan el programa
+const { rows: relacionFichas } = await conexion.execute(
+    "SELECT * FROM ficha WHERE programa_idprograma = ?",
+    [idprograma]
+);
+
+if (relacionFichas && relacionFichas.length > 0) {
+    await conexion.execute("ROLLBACK");
+    return {
+        success: false,
+        message: "No se puede eliminar el programa porque tiene fichas asociadas"
+    };
+}
+
             if (!existingProgram || existingProgram.length === 0) {
                 await conexion.execute("ROLLBACK");
                 return {

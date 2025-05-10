@@ -63,36 +63,62 @@ export const putPrograma = async(ctx: any)=>{
         const contentLength = request.headers.get("Content-length");
 
         if (contentLength === "0") {
-
             response.status = 400;
             response.body = {success: false, msg: "Cuerpo de la solicitud esta vacio"};
             return;
         }
 
         const body = await request.body.json();
+        
+        // Verificar que los campos necesarios existan
+        if (!body.idprograma) {
+            response.status = 400;
+            response.body = {success: false, msg: "Se requiere el ID del programa"};
+            return;
+        }
+        
+        if (!body.nombre_programa) {
+            response.status = 400;
+            response.body = {success: false, msg: "Se requiere el nombre del programa"};
+            return;
+        }
+        
         const ProgramaData = {
-
-            idprograma: body.idprograma,
+            idprograma: parseInt(body.idprograma),  // Convertir a número
             nombre_programa: body.nombre_programa,
         }
 
-        const objAprendiz = new Programa(ProgramaData);
-        const result = await objAprendiz.ActualizarPrograma();
+        // Usar nombre consistente con la entidad
+        const objPrograma = new Programa(ProgramaData);
+        const result = await objPrograma.ActualizarPrograma();
+        
+        // Manejar el resultado adecuadamente
+        if (!result.success) {
+            response.status = 400;  // Código más apropiado para error de negocio
+            response.body = {
+                success: false,
+                msg: result.message
+            };
+            return;
+        }
+        
         response.status = 200;
         response.body = {
-            success:true,
-            body:result,
+            success: true,
+            data: result.programa,
+            message: result.message
         };
 
     }catch(error){
-        response.status = 400;
+        console.error("Error en putPrograma:", error);
+        
+        response.status = 500;  // Código más apropiado para error interno
         response.body = {
-            success:false,
-            msg:"Error al procesar la solicitud"
+            success: false,
+            msg: "Error al procesar la solicitud"
         }
     }
 };
-
 export const deletePrograma = async(ctx:any)=>{
     const { response, request } = ctx;
 
@@ -139,7 +165,7 @@ export const deletePrograma = async(ctx:any)=>{
         response.status = 400;
         response.body = {
             success:false,
-            msg:"Error al borrar el usuario",
+            msg:"Error al borrar el programa",
             errors:error
         }        
     }
