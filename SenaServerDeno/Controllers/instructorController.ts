@@ -6,8 +6,8 @@ export const getInstructor = async(ctx:any)=>{
     const { response } = ctx;
 
     try {
-        const objPrograma = new Instructor();
-        const listaProgramas = await objPrograma.SeleccionarInstructores();
+        const objInstructor = new Instructor();
+        const listaProgramas = await objInstructor.SeleccionarInstructores();
         response.status = 200;
         response.body = {
             success:true,
@@ -17,7 +17,7 @@ export const getInstructor = async(ctx:any)=>{
         response.status = 400;
         response.body = {
             success:false,
-            msg: "Error al procesar la solicitud",
+            message: "Error al procesar la solicitud",
             errors: error
         }
     }
@@ -30,7 +30,7 @@ export const postInstructor = async(ctx:any)=>{
 
         if (contentLength === "0") {
             response.status = 400;
-            response.body = {success:false, msg:"El cuerpo de la solicitud se encuentra vacío."};
+            response.body = {success:false,  message:"El cuerpo de la solicitud se encuentra vacío."};
             return;
         }
 
@@ -43,8 +43,8 @@ export const postInstructor = async(ctx:any)=>{
             telefono: body.telefono
         }
 
-        const objPrograma = new Instructor(InstructorData)
-        const result = await objPrograma.InsertarInstructor();
+        const objInstructor = new Instructor(InstructorData)
+        const result = await objInstructor.InsertarInstructor();
         response.status = 200;
         response.body = {
             success:true,
@@ -55,7 +55,7 @@ export const postInstructor = async(ctx:any)=>{
         response.status = 400;
         response.body = {
             success:false,
-            msg:"Error al procesar la solicitud",
+            message:"Error al procesar la solicitud",
             errors:error
         }
     }
@@ -70,7 +70,7 @@ export const putInstructor = async(ctx: any)=>{
         if (contentLength === "0") {
 
             response.status = 400;
-            response.body = {success: false, msg: "Cuerpo de la solicitud esta vacio"};
+            response.body = {success: false,  message: "Cuerpo de la solicitud esta vacio"};
             return;
         }
 
@@ -84,8 +84,8 @@ export const putInstructor = async(ctx: any)=>{
             telefono: body.telefono,
         }
 
-        const objAprendiz = new Instructor(InstructorData);
-        const result = await objAprendiz.ActualizarInstructor();
+        const objInstructor = new Instructor(InstructorData);
+        const result = await objInstructor.ActualizarInstructor();
         response.status = 200;
         response.body = {
             success:true,
@@ -96,7 +96,7 @@ export const putInstructor = async(ctx: any)=>{
         response.status = 400;
         response.body = {
             success:false,
-            msg:"Error al procesar la solicitud"
+            message:"Error al procesar la solicitud"
         }
     }
 };
@@ -108,7 +108,7 @@ export const deleteInstructor = async(ctx:any)=>{
         const contentLength = request.headers.get("Content-Length");
         if (!contentLength || Number(contentLength) === 0) {
             response.status = 400;
-            response.body = { success:false, msg:"El cuerpo de la solicitud esta vacio"};
+            response.body = { success:false,  message:"El cuerpo de la solicitud esta vacio"};
             return;
         }        
 
@@ -118,7 +118,7 @@ export const deleteInstructor = async(ctx:any)=>{
             response.status = 400;
             response.body = {
                 success:false,
-                msg:"id del instructor no proporcionado"
+                message:"id del instructor no proporcionado"
             };
             return;
         }
@@ -136,21 +136,21 @@ export const deleteInstructor = async(ctx:any)=>{
 
         if (!result.success) {
             response.status = 404;
-            response.body = {success:false, msg:result.message};
+            response.body = {success:false,  message:result.message};
             return;
         }
 
         response.status = 200;
         response.body = {
             success:true,
-            msg: result.message
+            message: result.message
         };        
 
     } catch (error) {
         response.status = 400;
         response.body = {
             success:false,
-            msg:"Error al borrar el usuario",
+            message:"Error al borrar el usuario",
             errors:error
         }        
     }

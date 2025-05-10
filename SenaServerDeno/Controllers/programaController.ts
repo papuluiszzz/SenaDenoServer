@@ -15,7 +15,7 @@ export const getPrograma = async(ctx:any)=>{
         response.status = 400;
         response.body = {
             success:false,
-            msg: "Error al procesar la solicitud",
+            message: "Error al procesar la solicitud",
             errors: error
         }
     }
@@ -28,7 +28,7 @@ export const postPrograma = async(ctx:any)=>{
 
         if (contentLength === "0") {
             response.status = 400;
-            response.body = {success:false, msg:"El cuerpo de la solicitud se encuentra vacío."};
+            response.body = {success:false,  message:"El cuerpo de la solicitud se encuentra vacío."};
             return;
         }
 
@@ -50,7 +50,7 @@ export const postPrograma = async(ctx:any)=>{
         response.status = 400;
         response.body = {
             success:false,
-            msg:"Error al procesar la solicitud",
+            message:"Error al procesar la solicitud",
             errors:error
         }
     }
@@ -64,7 +64,7 @@ export const putPrograma = async(ctx: any)=>{
 
         if (contentLength === "0") {
             response.status = 400;
-            response.body = {success: false, msg: "Cuerpo de la solicitud esta vacio"};
+            response.body = {success: false,  message: "Cuerpo de la solicitud esta vacio"};
             return;
         }
 
@@ -73,13 +73,13 @@ export const putPrograma = async(ctx: any)=>{
         // Verificar que los campos necesarios existan
         if (!body.idprograma) {
             response.status = 400;
-            response.body = {success: false, msg: "Se requiere el ID del programa"};
+            response.body = {success: false, message: "Se requiere el ID del programa"};
             return;
         }
         
         if (!body.nombre_programa) {
             response.status = 400;
-            response.body = {success: false, msg: "Se requiere el nombre del programa"};
+            response.body = {success: false, message: "Se requiere el nombre del programa"};
             return;
         }
         
@@ -97,7 +97,7 @@ export const putPrograma = async(ctx: any)=>{
             response.status = 400;  // Código más apropiado para error de negocio
             response.body = {
                 success: false,
-                msg: result.message
+                message: result.message
             };
             return;
         }
@@ -115,7 +115,7 @@ export const putPrograma = async(ctx: any)=>{
         response.status = 500;  // Código más apropiado para error interno
         response.body = {
             success: false,
-            msg: "Error al procesar la solicitud"
+            message: "Error al procesar la solicitud"
         }
     }
 };
@@ -126,7 +126,7 @@ export const deletePrograma = async(ctx:any)=>{
         const contentLength = request.headers.get("Content-Length");
         if (!contentLength || Number(contentLength) === 0) {
             response.status = 400;
-            response.body = { success:false, msg:"El cuerpo de la solicitud esta vacio"};
+            response.body = { success:false,  message:"El cuerpo de la solicitud esta vacio"};
             return;
         }        
 
@@ -136,7 +136,7 @@ export const deletePrograma = async(ctx:any)=>{
             response.status = 400;
             response.body = {
                 success:false,
-                msg:"id del programa no proporcionado"
+                message:"id del programa no proporcionado"
             };
             return;
         }
@@ -151,21 +151,21 @@ export const deletePrograma = async(ctx:any)=>{
 
         if (!result.success) {
             response.status = 404;
-            response.body = {success:false, msg:result.message};
+            response.body = {success:false,  message:result.message};
             return;
         }
 
         response.status = 200;
         response.body = {
             success:true,
-            msg: result.message
+            message: result.message
         };        
 
     } catch (error) {
         response.status = 400;
         response.body = {
             success:false,
-            msg:"Error al borrar el programa",
+            message:"Error al borrar el programa",
             errors:error
         }        
     }

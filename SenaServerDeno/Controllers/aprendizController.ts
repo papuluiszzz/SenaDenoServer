@@ -22,7 +22,7 @@ export const getAprendiz = async (ctx: any)=>{
         response.status = 400;
         response.body = {
             success:false,
-            msg:"Error al procesar tu solicitud",
+            message:"Error al procesar tu solicitud",
             errors : error
         }
     }
@@ -39,7 +39,7 @@ export const postAprendiz = async (ctx: any)=>{
         if (contentLength === "0") {
             
             response.status = 400;
-            response.body = {success:false,msg:"Cuerpo de la solicitud esta vacio"};
+            response.body = {success:false, message:"Cuerpo de la solicitud esta vacio"};
             return;
         }
 
@@ -66,7 +66,7 @@ export const postAprendiz = async (ctx: any)=>{
         response.status = 400;
         response.body = {
             success:false,
-            msg:"Error al procesar la solicitud"
+            message:"Error al procesar la solicitud"
         }
     }
 }
@@ -81,7 +81,7 @@ export const putAprendiz = async(ctx: any)=>{
         if (contentLength === "0") {
 
             response.status = 400;
-            response.body = {success: false, msg: "Cuerpo de la solicitud esta vacio"};
+            response.body = {success: false,  message: "Cuerpo de la solicitud esta vacio"};
             return;
             
         }
@@ -109,7 +109,7 @@ export const putAprendiz = async(ctx: any)=>{
         response.status = 400;
         response.body = {
             success:false,
-            msg:"Error al procesar la solicitud"
+            message:"Error al procesar la solicitud"
         }
     }
 
@@ -123,14 +123,14 @@ export const putAprendiz = async(ctx: any)=>{
         const contentLength = request.headers.get("Content-Length");
         if (contentLength === "0") {
             response.status = 400;
-            response.body = { success: false, msg: "El ID del usuario es requerido para eliminarlo" };
+            response.body = { success: false,  message: "El ID del usuario es requerido para eliminarlo" };
             return;
         }
 
         const body = await request.body.json();
         if (!body.idaprendiz) {
             response.status = 400;
-            response.body = { success: false, msg: "El ID del aprendiz es requerido para eliminarlo" };
+            response.body = { success: false,  message: "El ID del aprendiz es requerido para eliminarlo" };
             return;
         }
 
@@ -155,7 +155,7 @@ export const putAprendiz = async(ctx: any)=>{
         response.status = 400;
         response.body = {
             success: false,
-            msg: "Error al procesar la solicitud"
+            message: "Error al procesar la solicitud"
         }
     }
 }

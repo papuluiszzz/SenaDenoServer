@@ -16,7 +16,7 @@ export const getFicha = async (ctx: any) => {
         response.status = 400;
         response.body = {
             success: false,
-            msg: "Error al procesar tu solicitud",
+            message: "Error al procesar tu solicitud",
             errors: error
         };
     }
@@ -30,7 +30,7 @@ export const getFichaPorId = async (ctx: any) => {
             response.status = 400;
             response.body = { 
                 success: false, 
-                msg: "Se requiere el ID de la ficha" 
+                message: "Se requiere el ID de la ficha" 
             };
             return;
         }
@@ -42,7 +42,7 @@ export const getFichaPorId = async (ctx: any) => {
             response.status = 404;
             response.body = { 
                 success: false, 
-                msg: "Ficha no encontrada" 
+                message: "Ficha no encontrada" 
             };
             return;
         }
@@ -56,7 +56,7 @@ export const getFichaPorId = async (ctx: any) => {
         response.status = 400;
         response.body = {
             success: false,
-            msg: "Error al procesar tu solicitud",
+            message: "Error al procesar tu solicitud",
             errors: error
         };
     }
@@ -70,7 +70,7 @@ export const getFichasPorPrograma = async (ctx: any) => {
             response.status = 400;
             response.body = { 
                 success: false, 
-                msg: "Se requiere el ID del programa" 
+                message: "Se requiere el ID del programa" 
             };
             return;
         }
@@ -87,7 +87,7 @@ export const getFichasPorPrograma = async (ctx: any) => {
         response.status = 400;
         response.body = {
             success: false,
-            msg: "Error al procesar tu solicitud",
+            message: "Error al procesar tu solicitud",
             errors: error
         };
     }
@@ -101,7 +101,7 @@ export const postFicha = async (ctx: any) => {
 
         if (contentLength === "0") {
             response.status = 400;
-            response.body = { success: false, msg: "Cuerpo de la solicitud está vacío" };
+            response.body = { success: false,  message: "Cuerpo de la solicitud está vacío" };
             return;
         }
 
@@ -128,7 +128,7 @@ export const postFicha = async (ctx: any) => {
         response.status = 400;
         response.body = {
             success: false,
-            msg: "Error al procesar la solicitud"
+            message: "Error al procesar la solicitud"
         };
     }
 }
@@ -141,7 +141,7 @@ export const putFicha = async (ctx: any) => {
 
         if (contentLength === "0") {
             response.status = 400;
-            response.body = { success: false, msg: "Cuerpo de la solicitud está vacío" };
+            response.body = { success: false,  message: "Cuerpo de la solicitud está vacío" };
             return;
         }
 
@@ -168,7 +168,7 @@ export const putFicha = async (ctx: any) => {
         response.status = 400;
         response.body = {
             success: false,
-            msg: "Error al procesar la solicitud"
+            message: "Error al procesar la solicitud"
         };
     }
 }
@@ -181,7 +181,7 @@ export const deleteFicha = async (ctx: any) => {
 
         if (contentLength === "0") {
             response.status = 400;
-            response.body = { success: false, msg: "El ID de la ficha es requerido para eliminarla" };
+            response.body = { success: false,  message: "El ID de la ficha es requerido para eliminarla" };
             return;
         }
 
@@ -189,7 +189,7 @@ export const deleteFicha = async (ctx: any) => {
 
         if (!body.idficha) {
             response.status = 400;
-            response.body = { success: false, msg: "El ID de la ficha es requerido para eliminarla" };
+            response.body = { success: false,  message: "El ID de la ficha es requerido para eliminarla" };
             return;
         }
 
@@ -217,7 +217,7 @@ export const deleteFicha = async (ctx: any) => {
         response.status = 400;
         response.body = {
             success: false,
-            msg: "Error al procesar la solicitud"
+            message: "Error al procesar la solicitud"
         };
     }
 }

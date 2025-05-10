@@ -16,7 +16,7 @@ export const getFichaHasAprendiz = async (ctx: any) => {
         response.status = 400;
         response.body = {
             success: false,
-            msg: "Error al procesar tu solicitud",
+            message: "Error al procesar tu solicitud",
             errors: error
         };
     }
@@ -30,7 +30,7 @@ export const getAprendicesPorFicha = async (ctx: any) => {
             response.status = 400;
             response.body = { 
                 success: false, 
-                msg: "Se requiere el ID de la ficha" 
+                message: "Se requiere el ID de la ficha" 
             };
             return;
         }
@@ -47,7 +47,7 @@ export const getAprendicesPorFicha = async (ctx: any) => {
         response.status = 400;
         response.body = {
             success: false,
-            msg: "Error al procesar tu solicitud",
+            message: "Error al procesar tu solicitud",
             errors: error
         };
     }
@@ -61,7 +61,7 @@ export const getFichasPorAprendiz = async (ctx: any) => {
             response.status = 400;
             response.body = { 
                 success: false, 
-                msg: "Se requiere el ID del aprendiz" 
+                message: "Se requiere el ID del aprendiz" 
             };
             return;
         }
@@ -78,7 +78,7 @@ export const getFichasPorAprendiz = async (ctx: any) => {
         response.status = 400;
         response.body = {
             success: false,
-            msg: "Error al procesar tu solicitud",
+            message: "Error al procesar tu solicitud",
             errors: error
         };
     }
@@ -92,7 +92,7 @@ export const postFichaHasAprendiz = async (ctx: any) => {
 
         if (contentLength === "0") {
             response.status = 400;
-            response.body = { success: false, msg: "Cuerpo de la solicitud está vacío" };
+            response.body = { success: false,  message: "Cuerpo de la solicitud está vacío" };
             return;
         }
 
@@ -116,7 +116,7 @@ export const postFichaHasAprendiz = async (ctx: any) => {
         response.status = 400;
         response.body = {
             success: false,
-            msg: "Error al procesar la solicitud"
+            message: "Error al procesar la solicitud"
         };
     }
 }
@@ -129,7 +129,7 @@ export const putFichaHasAprendiz = async (ctx: any) => {
 
         if (contentLength === "0") {
             response.status = 400;
-            response.body = { success: false, msg: "Cuerpo de la solicitud está vacío" };
+            response.body = { success: false,  message: "Cuerpo de la solicitud está vacío" };
             return;
         }
 
@@ -153,7 +153,7 @@ export const putFichaHasAprendiz = async (ctx: any) => {
         response.status = 400;
         response.body = {
             success: false,
-            msg: "Error al procesar la solicitud"
+            message: "Error al procesar la solicitud"
         };
     }
 }
@@ -166,7 +166,7 @@ export const deleteFichaHasAprendiz = async (ctx: any) => {
 
         if (contentLength === "0") {
             response.status = 400;
-            response.body = { success: false, msg: "Los datos son requeridos para eliminar la relación" };
+            response.body = { success: false,  message: "Los datos son requeridos para eliminar la relación" };
             return;
         }
 
@@ -176,7 +176,7 @@ export const deleteFichaHasAprendiz = async (ctx: any) => {
             response.status = 400;
             response.body = { 
                 success: false, 
-                msg: "Se requieren el ID de la ficha y el ID del aprendiz para eliminar la relación" 
+                message: "Se requieren el ID de la ficha y el ID del aprendiz para eliminar la relación" 
             };
             return;
         }
@@ -199,7 +199,7 @@ export const deleteFichaHasAprendiz = async (ctx: any) => {
         response.status = 400;
         response.body = {
             success: false,
-            msg: "Error al procesar la solicitud"
+            message: "Error al procesar la solicitud"
         };
     }
 }

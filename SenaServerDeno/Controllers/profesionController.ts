@@ -22,7 +22,7 @@ export const getprofesion = async (ctx:any)=>{
         response.status = 400;
         response.body = {
             success:false,
-            msg:"Error al procesar tu solicitud",
+            message:"Error al procesar tu solicitud",
             errors:error
         }
 
@@ -34,7 +34,7 @@ export const postprofesion = async (ctx:any)=>{
         const contentLength = request.headers.get("Content-Length");
         if(contentLength === "0"){
             response.status = 400;
-        response.body = {succes:false,msg:"cuerpo de la solicitud esta vacio"};
+        response.body = {succes:false, message:"cuerpo de la solicitud esta vacio"};
         return;
           }
           const body = await request.body.json();
@@ -55,7 +55,7 @@ export const postprofesion = async (ctx:any)=>{
         response.status = 400;
         response.body ={
             success:false,
-            msg:"Error al proceer la solicitud"
+            message:"Error al proceer la solicitud"
         }
     }
 }
@@ -66,7 +66,7 @@ export const putprofesion = async (ctx:any)=>{
         const contentLength = request.headers.get("Content-length");
         if(contentLength ==="0"){
             response.status = 400;
-            response.body={success:false,msg:"cuerpo de la solicitud esta vacio"};
+            response.body={success:false, message:"cuerpo de la solicitud esta vacio"};
             return;
         }
         const body = await request.body.json();
@@ -87,7 +87,7 @@ export const putprofesion = async (ctx:any)=>{
         response.status = 400;
         response.body = {
             success:false,
-            msg:"Error al procesar la solicitud"
+            message:"Error al procesar la solicitud"
     }
 }
 
@@ -101,7 +101,7 @@ export const deleteProfesion = async(ctx:any)=>{
         const contentLength = request.headers.get("Content-Length");
         if (!contentLength || Number(contentLength) === 0) {
             response.status = 400;
-            response.body = { success:false, msg:"El cuerpo pde la solicitud esta vacio"};
+            response.body = { success:false,  message:"El cuerpo pde la solicitud esta vacio"};
             return;
         }
 
@@ -109,7 +109,7 @@ export const deleteProfesion = async(ctx:any)=>{
         
         if (!body.idprofesion) {
             response.status = 400;
-            response.body = {success:false, msg:"id de la profesion  no proporcionado"};
+            response.body = {success:false,  message:"id de la profesion  no proporcionado"};
             return;
         }
 
@@ -124,21 +124,21 @@ export const deleteProfesion = async(ctx:any)=>{
 
         if (!result.success) {
             response.status = 404;
-            response.body = {success:false, msg:result.message};
+            response.body = {success:false,  message:result.message};
             return;
         }
 
         response.status = 200;
         response.body = {
             success:true,
-            msg: result.message
+            message: result.message
         };
 
     } catch (error) {
         response.status = 400;
         response.body = {
             success:false,
-            msg:"Error al borrar la profesion",
+            message:"Error al borrar la profesion",
             errors:error
         }
     }
