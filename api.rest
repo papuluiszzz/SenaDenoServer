@@ -116,3 +116,120 @@ Content-Type: application/json
   "email": "carlos.gomez@gmail.com",
   "telefono": "3159876543"
 }
+
+### Actualizar un instructor
+PUT http://localhost:8000/instructor
+Content-Type: application/json
+
+{
+  "idinstructor": "3",
+  "nombre": "Carlos",
+  "apellido": "Gomez Ramirez",
+  "email": "carlos.gomez@gmail.com",
+  "telefono": "3159876543"
+}
+
+### Eliminar un instructor (sin fichas ni profesiones asignadas)
+DELETE http://localhost:8000/instructor
+Content-Type: application/json
+
+{
+  "idinstructor": "3"
+}
+
+### Obtener todas las profesiones
+GET http://localhost:8000/profesion
+
+### Crear una nueva profesión
+POST http://localhost:8000/profesion
+Content-Type: application/json
+
+{
+  "nombre_profesion": "Ingeniero de Mecanica"
+}
+
+### Actualizar una profesión
+PUT http://localhost:8000/profesion
+Content-Type: application/json
+
+{
+  "idprofesion": "2",
+  "nombre_profesion": "Ingeniero de Software Senior"
+}
+
+### Eliminar una profesión (sin relaciones)
+DELETE http://localhost:8000/profesion
+Content-Type: application/json
+
+{
+  "idprofesion": "2"
+}
+
+### Obtener todas las relaciones ficha-aprendiz
+GET http://localhost:8000/ficha-aprendiz
+
+### Obtener aprendices por ficha
+GET http://localhost:8000/ficha-aprendiz/ficha/1
+
+### Obtener fichas por aprendiz
+GET http://localhost:8000/ficha-aprendiz/aprendiz/1
+
+### Crear una relación ficha-aprendiz
+POST http://localhost:8000/ficha-aprendiz
+Content-Type: application/json
+
+{
+  "ficha_idficha": 3,
+  "aprendiz_idaprendiz": 3,
+  "instructor_idinstructor": 2
+}
+
+### Actualizar una relación ficha-aprendiz
+PUT http://localhost:8000/ficha-aprendiz
+Content-Type: application/json
+
+{
+  "ficha_idficha": 3,
+  "aprendiz_idaprendiz": 3,
+  "instructor_idinstructor": 1
+}
+
+### Eliminar una relación ficha-aprendiz
+DELETE http://localhost:8000/ficha-aprendiz
+Content-Type: application/json
+
+{
+  "ficha_idficha": 3,
+  "aprendiz_idaprendiz": 3
+}
+
+### Obtener todas las relaciones instructor-profesión
+GET http://localhost:8000/instructor-profesion
+
+### Asignar una profesión a un instructor
+POST http://localhost:8000/instructor-profesion
+Content-Type: application/json
+
+{
+  "instructor_idinstructor": 1,
+  "profesion_idprofesion": 3
+}
+
+### Actualizar la profesión de un instructor
+PUT http://localhost:8000/instructor-profesion
+Content-Type: application/json
+
+{
+  "instructor_idinstructor": 1,
+  "profesion_idprofesion": 3,
+  "nueva_profesion_idprofesion": 4
+}
+
+### Desasignar una profesión de un instructor
+DELETE http://localhost:8000/instructor-profesion
+Content-Type: application/json
+
+{
+  "instructor_idinstructor": 1,
+  "profesion_idprofesion": 1
+}
