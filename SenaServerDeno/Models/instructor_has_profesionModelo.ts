@@ -4,7 +4,6 @@ import { z } from "../Dependencies/dependencias.ts";
 interface InstructorHasProfesionData {
     instructor_idinstructor: number;
     profesion_idprofesion: number;
-    nueva_profesion_idprofesion?: number; // Agregado como propiedad opcional
 }
 
 //interfaz extendida para que me permite ver los resultado con detalles de instructor y profesion
@@ -183,25 +182,21 @@ public async EliminarInstructorHasProfesion(): Promise<{ success: boolean; messa
     }
 }
 
-public async ActualizarInstructorHasProfesion(): Promise<{ success: boolean; message: string; registro?: Record<string, unknown> }> {
+public async ActualizarInstructorHasProfesion(nuevaProfesionId: number): Promise<{ success: boolean; message: string; registro?: Record<string, unknown> }> {
     try {
         if (!this._objInstructorHasProfesion) {
             throw new Error("No se ha proporcionado un objeto de relación válido");
         }
 
-        const { 
-            instructor_idinstructor, 
-            profesion_idprofesion, 
-            nueva_profesion_idprofesion 
-        } = this._objInstructorHasProfesion as (InstructorHasProfesionData & { nueva_profesion_idprofesion: number });
+        const { instructor_idinstructor, profesion_idprofesion } = this._objInstructorHasProfesion;
 
         // Verificar que todos los campos necesarios estén presentes
-        if (!instructor_idinstructor || !profesion_idprofesion || !nueva_profesion_idprofesion) {
+        if (!instructor_idinstructor || !profesion_idprofesion || !nuevaProfesionId) {
             throw new Error("Faltan campos requeridos para actualizar la relación");
         }
 
         // Si la profesión nueva es igual a la actual, no hay cambios que hacer
-        if (profesion_idprofesion === nueva_profesion_idprofesion) {
+        if (profesion_idprofesion === nuevaProfesionId) {
             return { success: false, message: "La nueva profesión es igual a la actual" };
         }
 
@@ -221,7 +216,7 @@ public async ActualizarInstructorHasProfesion(): Promise<{ success: boolean; mes
         // Verificar que exista la nueva profesión
         const { rows: nuevaProfesion } = await conexion.execute(
             "SELECT * FROM profesion WHERE idprofesion = ?",
-            [nueva_profesion_idprofesion]
+            [nuevaProfesionId]
         );
 
         if (!nuevaProfesion || nuevaProfesion.length === 0) {
@@ -243,7 +238,7 @@ public async ActualizarInstructorHasProfesion(): Promise<{ success: boolean; mes
         // Verificar que no exista ya una relación con la nueva profesión
         const { rows: relacionNueva } = await conexion.execute(
             "SELECT * FROM instructor_has_profesion WHERE instructor_idinstructor = ? AND profesion_idprofesion = ?",
-            [instructor_idinstructor, nueva_profesion_idprofesion]
+            [instructor_idinstructor, nuevaProfesionId]
         );
 
         if (relacionNueva && relacionNueva.length > 0) {
@@ -251,16 +246,10 @@ public async ActualizarInstructorHasProfesion(): Promise<{ success: boolean; mes
             return { success: false, message: "El instructor ya tiene asignada la nueva profesión" };
         }
 
-        // Eliminar la relación actual
-        await conexion.execute(
-            "DELETE FROM instructor_has_profesion WHERE instructor_idinstructor = ? AND profesion_idprofesion = ?",
-            [instructor_idinstructor, profesion_idprofesion]
-        );
-
-        // Insertar la nueva relación
+        // Actualizar directamente la relación usando UPDATE
         const result = await conexion.execute(
-            "INSERT INTO instructor_has_profesion (instructor_idinstructor, profesion_idprofesion) VALUES (?, ?)",
-            [instructor_idinstructor, nueva_profesion_idprofesion]
+            "UPDATE instructor_has_profesion SET profesion_idprofesion = ? WHERE instructor_idinstructor = ? AND profesion_idprofesion = ?",
+            [nuevaProfesionId, instructor_idinstructor, profesion_idprofesion]
         );
 
         if (result && typeof result.affectedRows === "number" && result.affectedRows > 0) {
@@ -273,7 +262,7 @@ public async ActualizarInstructorHasProfesion(): Promise<{ success: boolean; mes
                  JOIN instructor i ON ihp.instructor_idinstructor = i.idinstructor
                  JOIN profesion p ON ihp.profesion_idprofesion = p.idprofesion
                  WHERE ihp.instructor_idinstructor = ? AND ihp.profesion_idprofesion = ?`,
-                [instructor_idinstructor, nueva_profesion_idprofesion]
+                [instructor_idinstructor, nuevaProfesionId]
             );
 
             await conexion.execute("COMMIT");

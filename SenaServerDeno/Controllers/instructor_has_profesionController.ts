@@ -65,31 +65,48 @@ export const putInstructorHasProfesion = async (ctx: any) => {
 
         if (contentLength === "0") {
             response.status = 400;
-            response.body = { success: false, msg: "Cuerpo de la solicitud está vacío" };
+            response.body = { success: false, message: "Cuerpo de la solicitud está vacío" };
             return;
         }
 
         const body = await request.body.json();
 
+        if (!body.instructor_idinstructor || !body.profesion_idprofesion || !body.nueva_profesion_idprofesion) {
+            response.status = 400;
+            response.body = { 
+                success: false, 
+                message: "Se requieren el ID del instructor, la profesión actual y la nueva profesión" 
+            };
+            return;
+        }
+
         const InstructorHasProfesionData = {
-            instructor_idinstructor: body.instructor_idinstructor,
-            profesion_idprofesion: body.profesion_idprofesion,
-            nueva_profesion_idprofesion: body.nueva_profesion_idprofesion
+            instructor_idinstructor: parseInt(body.instructor_idinstructor),
+            profesion_idprofesion: parseInt(body.profesion_idprofesion)
         };
 
         const objInstructorHasProfesion = new InstructorHasProfesion(InstructorHasProfesionData);
-        const result = await objInstructorHasProfesion.ActualizarInstructorHasProfesion();
+        const result = await objInstructorHasProfesion.ActualizarInstructorHasProfesion(parseInt(body.nueva_profesion_idprofesion));
         
-        response.status = result.success ? 200 : 400;
-        response.body = {
-            success: result.success,
-            body: result,
-        };
+        if (result.success) {
+            response.status = 200;
+            response.body = {
+                success: true,
+                body: result
+            };
+        } else {
+            response.status = 400;
+            response.body = {
+                success: false,
+                message: result.message
+            };
+        }
     } catch (error) {
-        response.status = 400;
+        console.error("Error en putInstructorHasProfesion:", error);
+        response.status = 500;
         response.body = {
             success: false,
-            msg: "Error al procesar la solicitud"
+            message: "Error al procesar la solicitud"
         };
     }
 }

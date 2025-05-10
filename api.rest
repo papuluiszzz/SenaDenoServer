@@ -215,14 +215,14 @@ Content-Type: application/json
   "profesion_idprofesion": 3
 }
 
+
 ### Actualizar la profesión de un instructor
 PUT http://localhost:8000/instructor-profesion
 Content-Type: application/json
 
 {
   "instructor_idinstructor": 1,
-  "profesion_idprofesion": 3,
-  "nueva_profesion_idprofesion": 4
+  "profesion_idprofesion": 5
 }
 
 ### Desasignar una profesión de un instructor

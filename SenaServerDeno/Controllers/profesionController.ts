@@ -92,6 +92,9 @@ export const putprofesion = async (ctx:any)=>{
 }
 
 }
+
+
+
 export const deleteProfesion = async(ctx:any)=>{
     const {response, request} = ctx;
     try {
