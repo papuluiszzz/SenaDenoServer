@@ -112,7 +112,7 @@ export class Profesion{
             }
         
         }
-        public async eleminarprofesion(): Promise<{ success: boolean; message: string; profesion?: Record<string, unknown>}>{
+        public async eliminarprofesion(): Promise<{ success: boolean; message: string; profesion?: Record<string, unknown>}>{
             try {
                 if (!this._objProfesion) {
                     throw new Error("No se ha proporcionado un objeto de usuario valido");
