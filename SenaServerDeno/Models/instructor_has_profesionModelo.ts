@@ -182,7 +182,7 @@ public async EliminarInstructorHasProfesion(): Promise<{ success: boolean; messa
     }
 }
 
-public async ActualizarInstructorHasProfesion(nuevaProfesionId: number): Promise<{ success: boolean; message: string; registro?: Record<string, unknown> }> {
+public async ActualizarInstructorHasProfesion(): Promise<{ success: boolean; message: string; registro?: Record<string, unknown> }> {
     try {
         if (!this._objInstructorHasProfesion) {
             throw new Error("No se ha proporcionado un objeto de relación válido");
@@ -191,13 +191,8 @@ public async ActualizarInstructorHasProfesion(nuevaProfesionId: number): Promise
         const { instructor_idinstructor, profesion_idprofesion } = this._objInstructorHasProfesion;
 
         // Verificar que todos los campos necesarios estén presentes
-        if (!instructor_idinstructor || !profesion_idprofesion || !nuevaProfesionId) {
+        if (!instructor_idinstructor || !profesion_idprofesion) {
             throw new Error("Faltan campos requeridos para actualizar la relación");
-        }
-
-        // Si la profesión nueva es igual a la actual, no hay cambios que hacer
-        if (profesion_idprofesion === nuevaProfesionId) {
-            return { success: false, message: "La nueva profesión es igual a la actual" };
         }
 
         await conexion.execute("START TRANSACTION");
@@ -216,64 +211,84 @@ public async ActualizarInstructorHasProfesion(nuevaProfesionId: number): Promise
         // Verificar que exista la nueva profesión
         const { rows: nuevaProfesion } = await conexion.execute(
             "SELECT * FROM profesion WHERE idprofesion = ?",
-            [nuevaProfesionId]
+            [profesion_idprofesion]
         );
 
         if (!nuevaProfesion || nuevaProfesion.length === 0) {
             await conexion.execute("ROLLBACK");
-            return { success: false, message: "La nueva profesión especificada no existe" };
+            return { success: false, message: "La profesión especificada no existe" };
         }
 
-        // Verificar que exista la relación actual
+        // Verificar si ya existe alguna profesión asignada al instructor
         const { rows: relacionActual } = await conexion.execute(
-            "SELECT * FROM instructor_has_profesion WHERE instructor_idinstructor = ? AND profesion_idprofesion = ?",
-            [instructor_idinstructor, profesion_idprofesion]
+            "SELECT * FROM instructor_has_profesion WHERE instructor_idinstructor = ?",
+            [instructor_idinstructor]
         );
 
         if (!relacionActual || relacionActual.length === 0) {
-            await conexion.execute("ROLLBACK");
-            return { success: false, message: "La relación que desea actualizar no existe" };
-        }
-
-        // Verificar que no exista ya una relación con la nueva profesión
-        const { rows: relacionNueva } = await conexion.execute(
-            "SELECT * FROM instructor_has_profesion WHERE instructor_idinstructor = ? AND profesion_idprofesion = ?",
-            [instructor_idinstructor, nuevaProfesionId]
-        );
-
-        if (relacionNueva && relacionNueva.length > 0) {
-            await conexion.execute("ROLLBACK");
-            return { success: false, message: "El instructor ya tiene asignada la nueva profesión" };
-        }
-
-        // Actualizar directamente la relación usando UPDATE
-        const result = await conexion.execute(
-            "UPDATE instructor_has_profesion SET profesion_idprofesion = ? WHERE instructor_idinstructor = ? AND profesion_idprofesion = ?",
-            [nuevaProfesionId, instructor_idinstructor, profesion_idprofesion]
-        );
-
-        if (result && typeof result.affectedRows === "number" && result.affectedRows > 0) {
-            // Obtener la información completa de la nueva relación
-            const [registro] = await conexion.query(
-                `SELECT ihp.instructor_idinstructor, ihp.profesion_idprofesion,
-                        i.nombre, i.apellido, i.email, i.telefono,
-                        p.nombre_profesion
-                 FROM instructor_has_profesion ihp
-                 JOIN instructor i ON ihp.instructor_idinstructor = i.idinstructor
-                 JOIN profesion p ON ihp.profesion_idprofesion = p.idprofesion
-                 WHERE ihp.instructor_idinstructor = ? AND ihp.profesion_idprofesion = ?`,
-                [instructor_idinstructor, nuevaProfesionId]
+            // Si no existe relación previa, crear una nueva en lugar de actualizar
+            const result = await conexion.execute(
+                "INSERT INTO instructor_has_profesion (instructor_idinstructor, profesion_idprofesion) VALUES (?, ?)",
+                [instructor_idinstructor, profesion_idprofesion]
             );
 
-            await conexion.execute("COMMIT");
-            return { 
-                success: true, 
-                message: "Profesión del instructor actualizada correctamente", 
-                registro: registro 
-            };
+            if (result && typeof result.affectedRows === "number" && result.affectedRows > 0) {
+                const [registro] = await conexion.query(
+                    `SELECT ihp.instructor_idinstructor, ihp.profesion_idprofesion,
+                            i.nombre, i.apellido, i.email, i.telefono,
+                            p.nombre_profesion
+                     FROM instructor_has_profesion ihp
+                     JOIN instructor i ON ihp.instructor_idinstructor = i.idinstructor
+                     JOIN profesion p ON ihp.profesion_idprofesion = p.idprofesion
+                     WHERE ihp.instructor_idinstructor = ? AND ihp.profesion_idprofesion = ?`,
+                    [instructor_idinstructor, profesion_idprofesion]
+                );
+
+                await conexion.execute("COMMIT");
+                return { 
+                    success: true, 
+                    message: "Profesión asignada correctamente al instructor", 
+                    registro: registro 
+                };
+            }
         } else {
-            throw new Error("No fue posible actualizar la relación");
+            // Verificar que no sea la misma profesión
+            const profesionActualId = relacionActual[0].profesion_idprofesion;
+            
+            if (profesionActualId === profesion_idprofesion) {
+                await conexion.execute("ROLLBACK");
+                return { success: false, message: "El instructor ya tiene asignada esta profesión" };
+            }
+            
+            // Actualizar directamente la relación usando UPDATE
+            const result = await conexion.execute(
+                "UPDATE instructor_has_profesion SET profesion_idprofesion = ? WHERE instructor_idinstructor = ?",
+                [profesion_idprofesion, instructor_idinstructor]
+            );
+
+            if (result && typeof result.affectedRows === "number" && result.affectedRows > 0) {
+                // Obtener la información completa de la nueva relación
+                const [registro] = await conexion.query(
+                    `SELECT ihp.instructor_idinstructor, ihp.profesion_idprofesion,
+                            i.nombre, i.apellido, i.email, i.telefono,
+                            p.nombre_profesion
+                     FROM instructor_has_profesion ihp
+                     JOIN instructor i ON ihp.instructor_idinstructor = i.idinstructor
+                     JOIN profesion p ON ihp.profesion_idprofesion = p.idprofesion
+                     WHERE ihp.instructor_idinstructor = ? AND ihp.profesion_idprofesion = ?`,
+                    [instructor_idinstructor, profesion_idprofesion]
+                );
+
+                await conexion.execute("COMMIT");
+                return { 
+                    success: true, 
+                    message: "Profesión del instructor actualizada correctamente", 
+                    registro: registro 
+                };
+            }
         }
+        
+        throw new Error("No fue posible actualizar la relación");
     } catch (error) {
         await conexion.execute("ROLLBACK");
         
@@ -284,5 +299,4 @@ public async ActualizarInstructorHasProfesion(nuevaProfesionId: number): Promise
         }
     }
 }
-
 }

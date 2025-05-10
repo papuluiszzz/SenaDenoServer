@@ -71,11 +71,11 @@ export const putInstructorHasProfesion = async (ctx: any) => {
 
         const body = await request.body.json();
 
-        if (!body.instructor_idinstructor || !body.profesion_idprofesion || !body.nueva_profesion_idprofesion) {
+        if (!body.instructor_idinstructor || !body.profesion_idprofesion) {
             response.status = 400;
             response.body = { 
                 success: false, 
-                message: "Se requieren el ID del instructor, la profesión actual y la nueva profesión" 
+                message: "Se requieren el ID del instructor y la profesión" 
             };
             return;
         }
@@ -86,7 +86,7 @@ export const putInstructorHasProfesion = async (ctx: any) => {
         };
 
         const objInstructorHasProfesion = new InstructorHasProfesion(InstructorHasProfesionData);
-        const result = await objInstructorHasProfesion.ActualizarInstructorHasProfesion(parseInt(body.nueva_profesion_idprofesion));
+        const result = await objInstructorHasProfesion.ActualizarInstructorHasProfesion();
         
         if (result.success) {
             response.status = 200;
