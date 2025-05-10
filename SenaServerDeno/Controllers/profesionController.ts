@@ -117,7 +117,7 @@ export const deleteProfesion = async(ctx:any)=>{
         }
 
         const objprofesion = new Profesion(profesionData);
-        const result = await objprofesion.eleminarprofesion();
+        const result = await objprofesion.eliminarprofesion();
 
         if (!result.success) {
             response.status = 404;
