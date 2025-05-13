@@ -121,7 +121,7 @@ export class Profesion{
                 const {idprofesion} = this._objProfesion;
     
                 if (!idprofesion) {
-                    throw new Error("Se requiere el id del usuario para eliminar");
+                    throw new Error("Se requiere el id de la profesion para eliminar");
                 }
     
                 await conexion.execute("START TRANSACTION");
@@ -135,7 +135,7 @@ export class Profesion{
                     await conexion.execute("ROLLBACK");
                     return {
                         success: false,
-                        message: "No se encontró el usuario especificado"
+                        message: "No se encontró la profesion especificada"
                     };
                 }
     

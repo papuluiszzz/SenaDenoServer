@@ -24,17 +24,17 @@ DELETE http://localhost:8000/programa
 Content-Type: application/json
 
 {
-  "idprograma": "2"
+  "idprograma": "4"
 }
 
 ### Obtener todas las fichas
 GET http://localhost:8000/ficha
 
 ### Obtener ficha por ID
-GET http://localhost:8000/ficha/2
+GET http://localhost:8000/ficha/3
 
 ### Obtener fichas por programa
-GET http://localhost:8000/ficha/programa/2
+GET http://localhost:8000/ficha/programa/3
 
 ### Crear una nueva ficha
 POST http://localhost:8000/ficha
@@ -45,7 +45,7 @@ Content-Type: application/json
   "fecha_inicio_lectiva": "2025-01-15",
   "fecha_fin_lectiva": "2025-07-15",
   "fecha_fin_practica": "2026-01-15",
-  "programa_idprograma": 4
+  "programa_idprograma": 
 }
 
 ### Actualizar una ficha
@@ -53,11 +53,11 @@ PUT http://localhost:8000/ficha
 Content-Type: application/json
 
 {
-  "idficha": "2",
-  "codigo": "ADSI2026",
-  "fecha_inicio_lectiva": "2025-02-02",
-  "fecha_fin_lectiva": "2025-08-01",
-  "fecha_fin_practica": "2026-02-01",
+  "idficha": "3",
+  "codigo": "ADSI2025",
+  "fecha_inicio_lectiva": "2025-01-15",
+  "fecha_fin_lectiva": "2025-07-15",
+  "fecha_fin_practica": "2026-01-15",
   "programa_idprograma": 2
 }
 
@@ -66,7 +66,7 @@ DELETE http://localhost:8000/ficha
 Content-Type: application/json
 
 {
-  "idficha": "4"
+  "idficha": "3"
 }
 
 ### Obtener todos los aprendices
@@ -100,7 +100,7 @@ DELETE http://localhost:8000/aprendiz
 Content-Type: application/json
 
 {
-  "idaprendiz": "2"
+  "idaprendiz": "3"
 }
 
 ### Obtener todos los instructores
@@ -134,7 +134,7 @@ DELETE http://localhost:8000/instructor
 Content-Type: application/json
 
 {
-  "idinstructor": "3"
+  "idinstructor": "1"
 }
 
 ### Obtener todas las profesiones
@@ -153,7 +153,7 @@ PUT http://localhost:8000/profesion
 Content-Type: application/json
 
 {
-  "idprofesion": "2",
+  "idprofesion": "5",
   "nombre_profesion": "Ingeniero de Software Senior"
 }
 
@@ -162,7 +162,7 @@ DELETE http://localhost:8000/profesion
 Content-Type: application/json
 
 {
-  "idprofesion": "2"
+  "idprofesion": "1"
 }
 
 ### Obtener todas las relaciones ficha-aprendiz
@@ -212,7 +212,7 @@ Content-Type: application/json
 
 {
   "instructor_idinstructor": 1,
-  "profesion_idprofesion": 3
+  "profesion_idprofesion": 5
 }
 
 
@@ -231,5 +231,5 @@ Content-Type: application/json
 
 {
   "instructor_idinstructor": 1,
-  "profesion_idprofesion": 1
+  "profesion_idprofesion": 5
 }
